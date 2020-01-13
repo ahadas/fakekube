@@ -13,11 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import io.kubernetes.client.openapi.JSON;
-import io.kubernetes.client.openapi.JSON.DateTimeTypeAdapter;
 import io.kubernetes.client.openapi.models.V1Node;
 import io.kubernetes.client.openapi.models.V1NodeCondition;
 import io.kubernetes.client.openapi.models.V1NodeSpec;
@@ -36,7 +32,7 @@ public class Node extends HttpServlet {
     	node.getMetadata().setName("arik123");
     	node.setApiVersion("v1");
     	node.setKind("Node");
-    	node.getMetadata().setCreationTimestamp(DateTime.now());
+    	node.getMetadata().setCreationTimestamp(DateTime.parse("2020-01-13T10:59:06.370+02:00"));
 
     	Map<String, String> labels = new HashMap<>();
     	labels.put("node-role.kubernetes.io/master", "");
@@ -49,7 +45,7 @@ public class Node extends HttpServlet {
     	node.getStatus().setConditions(Arrays.asList(c));
     	V1NodeSystemInfo i = new V1NodeSystemInfo();
     	i.setKubeProxyVersion("v1.13.3");
-    	i.setKernelVersion("v1.13.3");
+    	i.setKubeletVersion("v1.13.3");
     	node.getStatus().setNodeInfo(i);
 
     	String nodeJsonString = new JSON().getGson().toJson(node);
