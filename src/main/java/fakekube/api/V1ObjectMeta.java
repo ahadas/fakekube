@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package fakekube;
+package fakekube.api;
 
 import java.io.IOException;
 import java.util.ArrayList;

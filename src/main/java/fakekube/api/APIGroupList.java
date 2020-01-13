@@ -1,4 +1,4 @@
-package fakekube;
+package fakekube.api;
 
 import java.io.IOException;
 
