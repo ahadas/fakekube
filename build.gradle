@@ -7,13 +7,21 @@ repositories {
     jcenter()
 }
 
+configurations {
+    moreLibs
+}
+
 compileJava.options.encoding = 'UTF-8'
 compileJava.sourceCompatibility = 8
 compileJava.targetCompatibility = 8
 
 dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0' 
+    compileOnly 'io.kubernetes:client-java:7.0.0'
+    moreLibs 'io.kubernetes:client-java:7.0.0'
     testCompile 'junit:junit:4.12'
 }
 
-
+war {
+    classpath configurations.moreLibs
+}
