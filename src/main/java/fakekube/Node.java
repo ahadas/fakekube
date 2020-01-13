@@ -21,15 +21,17 @@ import io.kubernetes.client.openapi.models.V1NodeStatus;
 import io.kubernetes.client.openapi.models.V1NodeSystemInfo;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 
-@WebServlet(name = "Node", urlPatterns = {"/api/v1/nodes/arik"}, loadOnStartup = 1) //"/hello"}, loadOnStartup = 1) 
+@WebServlet(name = "Node", urlPatterns = {"/api/v1/nodes/*"}, loadOnStartup = 1)
 public class Node extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+    	String path = request.getPathInfo();
+    	String name = path.substring(path.lastIndexOf("/")+1);
     	V1Node node = new V1Node();
     	node.setMetadata(new V1ObjectMeta());
     	node.setSpec(new V1NodeSpec());
     	node.setStatus(new V1NodeStatus());
-    	node.getMetadata().setName("arik123");
+    	node.getMetadata().setName(name);
     	node.setApiVersion("v1");
     	node.setKind("Node");
     	node.getMetadata().setCreationTimestamp(DateTime.parse("2020-01-13T10:59:06.370+02:00"));
@@ -49,13 +51,10 @@ public class Node extends HttpServlet {
     	node.getStatus().setNodeInfo(i);
 
     	String nodeJsonString = new JSON().getGson().toJson(node);
-//    	String nodeJsonString = new Gson().toJson(node);
-//        response.getWriter().print(node.toString());
     	response.setContentType("application/json");
     	response.setCharacterEncoding("UTF-8");
     	response.getWriter().print(nodeJsonString);
     	response.getWriter().flush();
-//    	response.getWriter().print("aaaa");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
