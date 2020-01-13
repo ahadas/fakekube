@@ -1,6 +1,5 @@
 plugins {
     id 'war'  
-    id 'org.gretty' version '2.2.0' 
 }
 
 repositories {
@@ -8,8 +7,6 @@ repositories {
 }
 
 compileJava.options.encoding = 'UTF-8'
-compileJava.sourceCompatibility = 8
-compileJava.targetCompatibility = 8
 
 dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0' 
