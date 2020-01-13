@@ -29,6 +29,7 @@ public class APIResourceList extends HttpServlet {
 		nodes.setNamespaced(false);
 		nodes.setVerbs(Arrays.asList("get", "list"));
 		nodes.setShortNames(Arrays.asList("no"));
+		nodes.setKind("Node");
 		resources.add(nodes);
 		l.setResources(resources);
 		String str= new Gson().toJson(l);
