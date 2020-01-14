@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,18 +22,14 @@ import io.kubernetes.client.openapi.models.V1NodeSystemInfo;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 
 @WebServlet(name = "Nodes", urlPatterns = {"/api/v1/nodes"}, loadOnStartup = 1)
-public class Nodes extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+public class Nodes extends KubeServlet<V1NodeList> {
+
+    protected V1NodeList query(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	V1NodeList nodes = new V1NodeList();
     	nodes.apiVersion("v1");
     	nodes.setKind("List");
-
     	nodes.setItems(Arrays.asList(createNode("arik", true), createNode("derez", false)));
-    	String nodeJsonString = new JSON().getGson().toJson(nodes);
-    	response.setContentType("application/json");
-    	response.setCharacterEncoding("UTF-8");
-    	response.getWriter().print(nodeJsonString);
-    	response.getWriter().flush();
+    	return nodes;
     }
 
     private V1Node createNode(String name, boolean master) {

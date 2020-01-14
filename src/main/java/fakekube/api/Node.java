@@ -7,13 +7,11 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 
-import io.kubernetes.client.openapi.JSON;
 import io.kubernetes.client.openapi.models.V1Node;
 import io.kubernetes.client.openapi.models.V1NodeCondition;
 import io.kubernetes.client.openapi.models.V1NodeSpec;
@@ -22,9 +20,9 @@ import io.kubernetes.client.openapi.models.V1NodeSystemInfo;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 
 @WebServlet(name = "Node", urlPatterns = {"/api/v1/nodes/*"}, loadOnStartup = 1)
-public class Node extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+public class Node extends KubeServlet<V1Node> {
+
+    protected V1Node query(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String path = request.getPathInfo();
     	String name = path.substring(path.lastIndexOf("/")+1);
 
@@ -51,11 +49,7 @@ public class Node extends HttpServlet {
     	i.setKubeletVersion("v1.13.3");
     	node.getStatus().setNodeInfo(i);
 
-    	String nodeJsonString = new JSON().getGson().toJson(node);
-    	response.setContentType("application/json");
-    	response.setCharacterEncoding("UTF-8");
-    	response.getWriter().print(nodeJsonString);
-    	response.getWriter().flush();
+    	return node;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

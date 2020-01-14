@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,22 +14,14 @@ import io.kubernetes.client.openapi.JSON;
 import io.kubernetes.client.openapi.models.V1APIResourceList;
 
 @WebServlet(name = "APIResourceList", urlPatterns = {"/api/v1"}, loadOnStartup = 1)
-public class APIResourceList extends HttpServlet {
+public class APIResourceList extends KubeServlet<V1APIResourceList> {
 	private static final Logger LOGGER = Logger.getLogger(APIResourceList.class.getName());
+	public static final String API_RESOURCE_LIST_FILE = "/fakekube/api/V1APIResourceList.json";
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		V1APIResourceList resources = loadV1APIResourceList();
-		String str = new JSON().getGson().toJson(resources);
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().print(str);
-		response.getWriter().flush();
-	}
-
-	private V1APIResourceList loadV1APIResourceList() {
+	protected V1APIResourceList query(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		byte[] bytes;
 		try {
-			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/fakekube/api/V1APIResourceList.json");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(API_RESOURCE_LIST_FILE);
 			bytes = new byte[inputStream.available()];
 			inputStream.read(bytes);
 		} catch (IOException e) {
