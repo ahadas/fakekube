@@ -23,7 +23,7 @@
 							<inputSpec>${project.basedir}/swagger.json</inputSpec>
 							<language>jaxrs-cxf</language>
 							<configOptions>
-								<sourceFolder>src/main/java/</sourceFolder>
+								<sourceFolder>src/gen/java/</sourceFolder>
 								<useGenericResponse>true</useGenericResponse>
 							</configOptions>
 							<modelPackage>fakekube.io.model</modelPackage>
