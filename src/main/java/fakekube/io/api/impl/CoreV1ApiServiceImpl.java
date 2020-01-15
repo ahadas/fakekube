@@ -1,60 +1,43 @@
 package fakekube.io.api.impl;
 
-import fakekube.io.api.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import fakekube.io.api.CoreV1Api;
 import fakekube.io.model.IoK8sApiAuthenticationV1TokenRequest;
 import fakekube.io.model.IoK8sApiAutoscalingV1Scale;
 import fakekube.io.model.IoK8sApiCoreV1Binding;
-import fakekube.io.model.IoK8sApiCoreV1ComponentStatus;
-import fakekube.io.model.IoK8sApiCoreV1ComponentStatusList;
 import fakekube.io.model.IoK8sApiCoreV1ConfigMap;
-import fakekube.io.model.IoK8sApiCoreV1ConfigMapList;
 import fakekube.io.model.IoK8sApiCoreV1Endpoints;
-import fakekube.io.model.IoK8sApiCoreV1EndpointsList;
 import fakekube.io.model.IoK8sApiCoreV1Event;
-import fakekube.io.model.IoK8sApiCoreV1EventList;
 import fakekube.io.model.IoK8sApiCoreV1LimitRange;
-import fakekube.io.model.IoK8sApiCoreV1LimitRangeList;
 import fakekube.io.model.IoK8sApiCoreV1Namespace;
-import fakekube.io.model.IoK8sApiCoreV1NamespaceList;
 import fakekube.io.model.IoK8sApiCoreV1Node;
+import fakekube.io.model.IoK8sApiCoreV1NodeCondition;
 import fakekube.io.model.IoK8sApiCoreV1NodeList;
+import fakekube.io.model.IoK8sApiCoreV1NodeSpec;
+import fakekube.io.model.IoK8sApiCoreV1NodeStatus;
+import fakekube.io.model.IoK8sApiCoreV1NodeSystemInfo;
 import fakekube.io.model.IoK8sApiCoreV1PersistentVolume;
 import fakekube.io.model.IoK8sApiCoreV1PersistentVolumeClaim;
-import fakekube.io.model.IoK8sApiCoreV1PersistentVolumeClaimList;
-import fakekube.io.model.IoK8sApiCoreV1PersistentVolumeList;
 import fakekube.io.model.IoK8sApiCoreV1Pod;
-import fakekube.io.model.IoK8sApiCoreV1PodList;
 import fakekube.io.model.IoK8sApiCoreV1PodTemplate;
-import fakekube.io.model.IoK8sApiCoreV1PodTemplateList;
 import fakekube.io.model.IoK8sApiCoreV1ReplicationController;
-import fakekube.io.model.IoK8sApiCoreV1ReplicationControllerList;
 import fakekube.io.model.IoK8sApiCoreV1ResourceQuota;
-import fakekube.io.model.IoK8sApiCoreV1ResourceQuotaList;
 import fakekube.io.model.IoK8sApiCoreV1Secret;
-import fakekube.io.model.IoK8sApiCoreV1SecretList;
 import fakekube.io.model.IoK8sApiCoreV1Service;
 import fakekube.io.model.IoK8sApiCoreV1ServiceAccount;
-import fakekube.io.model.IoK8sApiCoreV1ServiceAccountList;
-import fakekube.io.model.IoK8sApiCoreV1ServiceList;
 import fakekube.io.model.IoK8sApiPolicyV1beta1Eviction;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIResourceList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
+import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1ObjectMeta;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
-import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Status;
-import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1WatchEvent;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import org.apache.cxf.jaxrs.model.wadl.Description;
-import org.apache.cxf.jaxrs.model.wadl.DocTarget;
-
-import org.apache.cxf.jaxrs.ext.multipart.*;
-
-import io.swagger.annotations.Api;
+import fakekube.io.utils.ResourceReader;
 
 /**
  * Kubernetes
@@ -63,6 +46,8 @@ import io.swagger.annotations.Api;
  *
  */
 public class CoreV1ApiServiceImpl implements CoreV1Api {
+	private static final Logger LOGGER = Logger.getLogger(CoreV1ApiServiceImpl.class.getName());
+
     public Response connectCoreV1DeleteNamespacedPodProxy(String name, String namespace, String path) {
         // TODO: Implement...
         
@@ -634,9 +619,8 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response getCoreV1APIResources() {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApimachineryPkgApisMetaV1APIResourceList obj = new ResourceReader().read("resources.json", IoK8sApimachineryPkgApisMetaV1APIResourceList.class);
+        return (obj != null ? Response.ok(obj) : Response.status(Status.BAD_REQUEST)).build();
     }
     
     public Response listCoreV1ComponentStatus(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
@@ -748,9 +732,48 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1Node(String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	LOGGER.info("arik0");
+    	IoK8sApiCoreV1NodeList nodes = new IoK8sApiCoreV1NodeList();
+    	nodes.apiVersion("v1");
+    	nodes.setKind("List");
+    	nodes.setItems(Arrays.asList(createNode("arik", true), createNode("derez", false)));
+    	LOGGER.info("arik01");
+        return Response.ok(nodes).build();
+    }
+
+    private IoK8sApiCoreV1Node createNode(String name, boolean master) {
+    	IoK8sApiCoreV1Node node = new IoK8sApiCoreV1Node();
+    	node.setMetadata(new IoK8sApimachineryPkgApisMetaV1ObjectMeta());
+    	node.setSpec(new IoK8sApiCoreV1NodeSpec());
+    	node.setStatus(new IoK8sApiCoreV1NodeStatus());
+    	node.getMetadata().setName(name);
+    	node.setApiVersion("v1");
+    	node.setKind("Node");
+    	node.getMetadata().setCreationTimestamp("2020-01-13T10:59:06.370+02:00");
+
+    	Map<String, String> labels = new HashMap<>();
+    	if (master)
+    		labels.put("node-role.kubernetes.io/master", "");
+    	node.getMetadata().setLabels(labels);
+
+    	IoK8sApiCoreV1NodeCondition c = new IoK8sApiCoreV1NodeCondition();
+    	c.setStatus("True");
+    	c.setReason("KubeletReady");
+    	c.setType("Ready");
+    	node.getStatus().setConditions(Arrays.asList(c));
+    	IoK8sApiCoreV1NodeSystemInfo i = new IoK8sApiCoreV1NodeSystemInfo();
+    	i.setArchitecture("x86");
+    	i.bootID("abcdef");
+    	i.setContainerRuntimeVersion("123456");
+    	i.setKernelVersion("123");
+    	i.setMachineID("12345678");
+    	i.setOperatingSystem("Linux");
+    	i.setOsImage("my-image");
+    	i.setSystemUUID("987654321");
+    	i.setKubeProxyVersion("v1.13.3");
+    	i.setKubeletVersion("v1.13.3");
+    	node.getStatus().setNodeInfo(i);
+    	return node;
     }
     
     public Response listCoreV1PersistentVolume(String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {

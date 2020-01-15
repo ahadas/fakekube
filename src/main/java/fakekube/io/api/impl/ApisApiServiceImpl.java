@@ -1,20 +1,11 @@
 package fakekube.io.api.impl;
 
-import fakekube.io.api.*;
-import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIGroupList;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import org.apache.cxf.jaxrs.model.wadl.Description;
-import org.apache.cxf.jaxrs.model.wadl.DocTarget;
+import javax.ws.rs.core.Response.Status;
 
-import org.apache.cxf.jaxrs.ext.multipart.*;
-
-import io.swagger.annotations.Api;
+import fakekube.io.api.ApisApi;
+import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIGroupList;
+import fakekube.io.utils.ResourceReader;
 
 /**
  * Kubernetes
@@ -24,9 +15,8 @@ import io.swagger.annotations.Api;
  */
 public class ApisApiServiceImpl implements ApisApi {
     public Response getAPIVersions() {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApimachineryPkgApisMetaV1APIGroupList obj = new ResourceReader().read("groups.json", IoK8sApimachineryPkgApisMetaV1APIGroupList.class);
+        return (obj != null ? Response.ok(obj) : Response.status(Status.BAD_REQUEST)).build();
     }
     
 }
