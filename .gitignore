@@ -4,6 +4,8 @@
 .classpath
 /bin
 /build/
+target/
 *.log
 .idea
 *.iml
+.swagger-codegen
