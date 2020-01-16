@@ -43,7 +43,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
 	private static final Logger LOGGER = Logger.getLogger(CoreV1ApiServiceImpl.class.getName());
 
 	@Inject
-	private Nodes nodes2;
+	private Nodes nodes;
 
     public Response connectCoreV1DeleteNamespacedPodProxy(String name, String namespace, String path) {
         // TODO: Implement...
@@ -436,7 +436,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1Node(IoK8sApiCoreV1Node body, String pretty, String dryRun, String fieldManager) {
-    	nodes2.add(body);
+    	nodes.add(body);
         return Response.ok().entity(body).build();
     }
     
@@ -728,11 +728,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1Node(String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-    	IoK8sApiCoreV1NodeList nodes = new IoK8sApiCoreV1NodeList();
-    	nodes.apiVersion("v1");
-    	nodes.setKind("List");
-    	nodes.setItems(nodes2.list());
-        return Response.ok(nodes).build();
+    	IoK8sApiCoreV1NodeList nodeList = new IoK8sApiCoreV1NodeList();
+    	nodeList.apiVersion("v1");
+    	nodeList.setKind("List");
+    	nodeList.setItems(nodes.list());
+        return Response.ok(nodeList).build();
     }
 
     public Response listCoreV1PersistentVolume(String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
