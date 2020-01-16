@@ -50,7 +50,7 @@ public class IoK8sApimachineryPkgApisMetaV1APIResource  {
  /**
    * namespaced indicates if a resource is namespaced or not.
   **/
-  private Boolean namespaced = null;
+  private boolean namespaced = false;
 
   @ApiModelProperty(value = "shortNames is a list of suggested short names of the resource.")
  /**
@@ -166,15 +166,15 @@ public class IoK8sApimachineryPkgApisMetaV1APIResource  {
   **/
   @JsonProperty("namespaced")
   @NotNull
-  public Boolean isNamespaced() {
+  public boolean isNamespaced() {
     return namespaced;
   }
 
-  public void setNamespaced(Boolean namespaced) {
+  public void setNamespaced(boolean namespaced) {
     this.namespaced = namespaced;
   }
 
-  public IoK8sApimachineryPkgApisMetaV1APIResource namespaced(Boolean namespaced) {
+  public IoK8sApimachineryPkgApisMetaV1APIResource namespaced(boolean namespaced) {
     this.namespaced = namespaced;
     return this;
   }
