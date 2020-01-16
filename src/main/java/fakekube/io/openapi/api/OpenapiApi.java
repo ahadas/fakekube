@@ -7,9 +7,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import fakekube.io.utils.ResourceReader;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,12 +65,12 @@ public class OpenapiApi  {
     @Produces({ "application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/com.github.proto-openapi.spec.v2@v1.0+protobuf" })
     @ApiOperation(value = "", tags={ "admissionregistration" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = JsonObject.class),
+        @ApiResponse(code = 200, message = "OK", response = Openapi.class),
         @ApiResponse(code = 401, message = "Unauthorized") })
     public Response getV2() {
     	String str = new ResourceReader().read("openapi.json");
-    	JsonObject obj = new Gson().fromJson(str, JsonObject.class);
-    	return Response.ok(obj).type(MediaType.APPLICATION_OCTET_STREAM).build();
+    	Openapi openapi = new Openapi(str);
+    	return Response.ok(openapi).type(MediaType.APPLICATION_OCTET_STREAM).build();
     }
 }
 
