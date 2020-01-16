@@ -42,6 +42,7 @@ import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Status;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1StatusDetails;
 import fakekube.io.sim.model.Namespaces;
 import fakekube.io.sim.model.Nodes;
+import fakekube.io.sim.model.Pods;
 import fakekube.io.utils.ResourceReader;
 
 /**
@@ -57,6 +58,8 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
 	private Nodes nodes;
 	@Inject
 	private Namespaces namespaces;
+	@Inject
+	private Pods pods;
 
     public Response connectCoreV1DeleteNamespacedPodProxy(String name, String namespace, String path) {
         // TODO: Implement...
@@ -389,9 +392,8 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1NamespacedPod(String namespace, IoK8sApiCoreV1Pod body, String pretty, String dryRun, String fieldManager) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+        pods.add(body);
+        return Response.ok().entity(body).build();
     }
     
     public Response createCoreV1NamespacedPodBinding(String name, String namespace, IoK8sApiCoreV1Binding body, String dryRun, String fieldManager, String pretty) {
@@ -719,9 +721,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1NamespacedPod(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1PodList podList = new IoK8sApiCoreV1PodList()
+    			.apiVersion("v1")
+    			.kind("List")
+    			.items(pods.list(namespace));
+        return Response.ok().entity(podList).build();
     }
     
     public Response listCoreV1NamespacedPodTemplate(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
@@ -781,11 +785,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1PodForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-    	IoK8sApiCoreV1PodList podsList = new IoK8sApiCoreV1PodList();
-    	podsList.apiVersion("v1");
-    	podsList.setKind("List");
-    	podsList.setItems(Arrays.asList());
-        return Response.ok().entity(podsList).build();
+    	IoK8sApiCoreV1PodList podList = new IoK8sApiCoreV1PodList()
+    			.apiVersion("v1")
+    			.kind("List")
+    			.items(pods.list());
+        return Response.ok().entity(podList).build();
     }
     
     public Response listCoreV1PodTemplateForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
