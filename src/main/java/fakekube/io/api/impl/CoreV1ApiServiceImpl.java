@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -48,6 +49,9 @@ import fakekube.io.utils.ResourceReader;
  */
 public class CoreV1ApiServiceImpl implements CoreV1Api {
 	private static final Logger LOGGER = Logger.getLogger(CoreV1ApiServiceImpl.class.getName());
+
+	@Inject
+	private Nodes nodes2;
 
     public Response connectCoreV1DeleteNamespacedPodProxy(String name, String namespace, String path) {
         // TODO: Implement...
@@ -440,7 +444,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1Node(IoK8sApiCoreV1Node body, String pretty, String dryRun, String fieldManager) {
-    	Nodes.instance.add(body);
+    	nodes2.add(body);
         return Response.ok().entity(body).build();
     }
     
@@ -736,7 +740,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     	nodes.apiVersion("v1");
     	nodes.setKind("List");
 //    	nodes.setItems(Arrays.asList(createNode("arik", true), createNode("derez", false)));
-    	nodes.setItems(Nodes.instance.list());
+    	nodes.setItems(nodes2.list());
         return Response.ok(nodes).build();
     }
 
