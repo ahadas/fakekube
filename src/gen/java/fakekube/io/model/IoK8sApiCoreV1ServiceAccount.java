@@ -86,7 +86,7 @@ public class IoK8sApiCoreV1ServiceAccount  {
    * @return automountServiceAccountToken
   **/
   @JsonProperty("automountServiceAccountToken")
-  public Boolean isAutomountServiceAccountToken() {
+  public Boolean getAutomountServiceAccountToken() {
     return automountServiceAccountToken;
   }
 

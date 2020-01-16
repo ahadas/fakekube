@@ -116,7 +116,7 @@ public class IoK8sApiCoreV1PodSecurityContext  {
    * @return runAsNonRoot
   **/
   @JsonProperty("runAsNonRoot")
-  public Boolean isRunAsNonRoot() {
+  public Boolean getRunAsNonRoot() {
     return runAsNonRoot;
   }
 

@@ -124,7 +124,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefi
    * @return preserveUnknownFields
   **/
   @JsonProperty("preserveUnknownFields")
-  public Boolean isPreserveUnknownFields() {
+  public Boolean getPreserveUnknownFields() {
     return preserveUnknownFields;
   }
 

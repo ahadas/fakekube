@@ -54,7 +54,7 @@ public class IoK8sApiPolicyV1beta1AllowedHostPath  {
    * @return readOnly
   **/
   @JsonProperty("readOnly")
-  public Boolean isReadOnly() {
+  public Boolean getReadOnly() {
     return readOnly;
   }
 

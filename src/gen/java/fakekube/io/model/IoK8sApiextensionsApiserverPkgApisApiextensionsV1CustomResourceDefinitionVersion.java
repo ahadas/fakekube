@@ -129,7 +129,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefi
   **/
   @JsonProperty("served")
   @NotNull
-  public Boolean isServed() {
+  public Boolean getServed() {
     return served;
   }
 
@@ -148,7 +148,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefi
   **/
   @JsonProperty("storage")
   @NotNull
-  public Boolean isStorage() {
+  public Boolean getStorage() {
     return storage;
   }
 

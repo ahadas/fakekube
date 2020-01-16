@@ -104,7 +104,7 @@ public class IoK8sApiSchedulingV1PriorityClass  {
    * @return globalDefault
   **/
   @JsonProperty("globalDefault")
-  public Boolean isGlobalDefault() {
+  public Boolean getGlobalDefault() {
     return globalDefault;
   }
 

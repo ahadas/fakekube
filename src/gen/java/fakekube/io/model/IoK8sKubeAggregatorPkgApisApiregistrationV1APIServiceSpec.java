@@ -123,7 +123,7 @@ public class IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceSpec  {
    * @return insecureSkipTLSVerify
   **/
   @JsonProperty("insecureSkipTLSVerify")
-  public Boolean isInsecureSkipTLSVerify() {
+  public Boolean getInsecureSkipTLSVerify() {
     return insecureSkipTLSVerify;
   }
 

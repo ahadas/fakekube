@@ -299,7 +299,7 @@ public class IoK8sApiCoreV1ServiceSpec  {
    * @return publishNotReadyAddresses
   **/
   @JsonProperty("publishNotReadyAddresses")
-  public Boolean isPublishNotReadyAddresses() {
+  public Boolean getPublishNotReadyAddresses() {
     return publishNotReadyAddresses;
   }
 

@@ -78,7 +78,7 @@ public class IoK8sApiCoreV1QuobyteVolumeSource  {
    * @return readOnly
   **/
   @JsonProperty("readOnly")
-  public Boolean isReadOnly() {
+  public Boolean getReadOnly() {
     return readOnly;
   }
 

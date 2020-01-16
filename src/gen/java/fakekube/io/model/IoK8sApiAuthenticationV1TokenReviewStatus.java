@@ -75,7 +75,7 @@ public class IoK8sApiAuthenticationV1TokenReviewStatus  {
    * @return authenticated
   **/
   @JsonProperty("authenticated")
-  public Boolean isAuthenticated() {
+  public Boolean getAuthenticated() {
     return authenticated;
   }
 

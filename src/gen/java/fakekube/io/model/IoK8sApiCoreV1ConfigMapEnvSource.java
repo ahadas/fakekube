@@ -54,7 +54,7 @@ public class IoK8sApiCoreV1ConfigMapEnvSource  {
    * @return optional
   **/
   @JsonProperty("optional")
-  public Boolean isOptional() {
+  public Boolean getOptional() {
     return optional;
   }
 

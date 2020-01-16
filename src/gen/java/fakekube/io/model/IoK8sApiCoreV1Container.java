@@ -456,7 +456,7 @@ public class IoK8sApiCoreV1Container  {
    * @return stdin
   **/
   @JsonProperty("stdin")
-  public Boolean isStdin() {
+  public Boolean getStdin() {
     return stdin;
   }
 
@@ -474,7 +474,7 @@ public class IoK8sApiCoreV1Container  {
    * @return stdinOnce
   **/
   @JsonProperty("stdinOnce")
-  public Boolean isStdinOnce() {
+  public Boolean getStdinOnce() {
     return stdinOnce;
   }
 
@@ -528,7 +528,7 @@ public class IoK8sApiCoreV1Container  {
    * @return tty
   **/
   @JsonProperty("tty")
-  public Boolean isTty() {
+  public Boolean getTty() {
     return tty;
   }
 

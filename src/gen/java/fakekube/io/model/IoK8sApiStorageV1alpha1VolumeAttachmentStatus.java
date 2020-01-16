@@ -73,7 +73,7 @@ public class IoK8sApiStorageV1alpha1VolumeAttachmentStatus  {
   **/
   @JsonProperty("attached")
   @NotNull
-  public Boolean isAttached() {
+  public Boolean getAttached() {
     return attached;
   }
 

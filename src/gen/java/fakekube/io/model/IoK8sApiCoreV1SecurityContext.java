@@ -90,7 +90,7 @@ public class IoK8sApiCoreV1SecurityContext  {
    * @return allowPrivilegeEscalation
   **/
   @JsonProperty("allowPrivilegeEscalation")
-  public Boolean isAllowPrivilegeEscalation() {
+  public Boolean getAllowPrivilegeEscalation() {
     return allowPrivilegeEscalation;
   }
 
@@ -126,7 +126,7 @@ public class IoK8sApiCoreV1SecurityContext  {
    * @return privileged
   **/
   @JsonProperty("privileged")
-  public Boolean isPrivileged() {
+  public Boolean getPrivileged() {
     return privileged;
   }
 
@@ -162,7 +162,7 @@ public class IoK8sApiCoreV1SecurityContext  {
    * @return readOnlyRootFilesystem
   **/
   @JsonProperty("readOnlyRootFilesystem")
-  public Boolean isReadOnlyRootFilesystem() {
+  public Boolean getReadOnlyRootFilesystem() {
     return readOnlyRootFilesystem;
   }
 
@@ -198,7 +198,7 @@ public class IoK8sApiCoreV1SecurityContext  {
    * @return runAsNonRoot
   **/
   @JsonProperty("runAsNonRoot")
-  public Boolean isRunAsNonRoot() {
+  public Boolean getRunAsNonRoot() {
     return runAsNonRoot;
   }
 

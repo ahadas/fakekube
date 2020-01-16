@@ -49,7 +49,7 @@ public class IoK8sApiAuthorizationV1beta1SubjectAccessReviewStatus  {
   **/
   @JsonProperty("allowed")
   @NotNull
-  public Boolean isAllowed() {
+  public Boolean getAllowed() {
     return allowed;
   }
 
@@ -67,7 +67,7 @@ public class IoK8sApiAuthorizationV1beta1SubjectAccessReviewStatus  {
    * @return denied
   **/
   @JsonProperty("denied")
-  public Boolean isDenied() {
+  public Boolean getDenied() {
     return denied;
   }
 

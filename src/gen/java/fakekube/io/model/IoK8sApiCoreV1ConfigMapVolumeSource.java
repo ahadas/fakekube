@@ -111,7 +111,7 @@ public class IoK8sApiCoreV1ConfigMapVolumeSource  {
    * @return optional
   **/
   @JsonProperty("optional")
-  public Boolean isOptional() {
+  public Boolean getOptional() {
     return optional;
   }
 

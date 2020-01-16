@@ -178,7 +178,7 @@ public class IoK8sApiBatchV1beta1CronJobSpec  {
    * @return suspend
   **/
   @JsonProperty("suspend")
-  public Boolean isSuspend() {
+  public Boolean getSuspend() {
     return suspend;
   }
 

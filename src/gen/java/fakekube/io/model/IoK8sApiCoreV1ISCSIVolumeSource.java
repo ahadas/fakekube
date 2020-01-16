@@ -94,7 +94,7 @@ public class IoK8sApiCoreV1ISCSIVolumeSource  {
    * @return chapAuthDiscovery
   **/
   @JsonProperty("chapAuthDiscovery")
-  public Boolean isChapAuthDiscovery() {
+  public Boolean getChapAuthDiscovery() {
     return chapAuthDiscovery;
   }
 
@@ -112,7 +112,7 @@ public class IoK8sApiCoreV1ISCSIVolumeSource  {
    * @return chapAuthSession
   **/
   @JsonProperty("chapAuthSession")
-  public Boolean isChapAuthSession() {
+  public Boolean getChapAuthSession() {
     return chapAuthSession;
   }
 
@@ -245,7 +245,7 @@ public class IoK8sApiCoreV1ISCSIVolumeSource  {
    * @return readOnly
   **/
   @JsonProperty("readOnly")
-  public Boolean isReadOnly() {
+  public Boolean getReadOnly() {
     return readOnly;
   }
 

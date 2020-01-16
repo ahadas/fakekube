@@ -92,7 +92,7 @@ public class IoK8sApiStorageV1beta1StorageClass  {
    * @return allowVolumeExpansion
   **/
   @JsonProperty("allowVolumeExpansion")
-  public Boolean isAllowVolumeExpansion() {
+  public Boolean getAllowVolumeExpansion() {
     return allowVolumeExpansion;
   }
 

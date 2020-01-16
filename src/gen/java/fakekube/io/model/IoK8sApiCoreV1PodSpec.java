@@ -291,7 +291,7 @@ public class IoK8sApiCoreV1PodSpec  {
    * @return automountServiceAccountToken
   **/
   @JsonProperty("automountServiceAccountToken")
-  public Boolean isAutomountServiceAccountToken() {
+  public Boolean getAutomountServiceAccountToken() {
     return automountServiceAccountToken;
   }
 
@@ -369,7 +369,7 @@ public class IoK8sApiCoreV1PodSpec  {
    * @return enableServiceLinks
   **/
   @JsonProperty("enableServiceLinks")
-  public Boolean isEnableServiceLinks() {
+  public Boolean getEnableServiceLinks() {
     return enableServiceLinks;
   }
 
@@ -433,7 +433,7 @@ public class IoK8sApiCoreV1PodSpec  {
    * @return hostIPC
   **/
   @JsonProperty("hostIPC")
-  public Boolean isHostIPC() {
+  public Boolean getHostIPC() {
     return hostIPC;
   }
 
@@ -451,7 +451,7 @@ public class IoK8sApiCoreV1PodSpec  {
    * @return hostNetwork
   **/
   @JsonProperty("hostNetwork")
-  public Boolean isHostNetwork() {
+  public Boolean getHostNetwork() {
     return hostNetwork;
   }
 
@@ -469,7 +469,7 @@ public class IoK8sApiCoreV1PodSpec  {
    * @return hostPID
   **/
   @JsonProperty("hostPID")
-  public Boolean isHostPID() {
+  public Boolean getHostPID() {
     return hostPID;
   }
 
@@ -800,7 +800,7 @@ public class IoK8sApiCoreV1PodSpec  {
    * @return shareProcessNamespace
   **/
   @JsonProperty("shareProcessNamespace")
-  public Boolean isShareProcessNamespace() {
+  public Boolean getShareProcessNamespace() {
     return shareProcessNamespace;
   }
 

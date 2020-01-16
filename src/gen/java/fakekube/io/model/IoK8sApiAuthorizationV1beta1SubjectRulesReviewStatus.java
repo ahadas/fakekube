@@ -73,7 +73,7 @@ public class IoK8sApiAuthorizationV1beta1SubjectRulesReviewStatus  {
   **/
   @JsonProperty("incomplete")
   @NotNull
-  public Boolean isIncomplete() {
+  public Boolean getIncomplete() {
     return incomplete;
   }
 

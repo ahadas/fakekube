@@ -61,7 +61,7 @@ public class IoK8sApiCoreV1NFSVolumeSource  {
    * @return readOnly
   **/
   @JsonProperty("readOnly")
-  public Boolean isReadOnly() {
+  public Boolean getReadOnly() {
     return readOnly;
   }
 

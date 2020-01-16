@@ -44,7 +44,7 @@ public class IoK8sApiStorageV1beta1CSIDriverSpec  {
    * @return attachRequired
   **/
   @JsonProperty("attachRequired")
-  public Boolean isAttachRequired() {
+  public Boolean getAttachRequired() {
     return attachRequired;
   }
 
@@ -62,7 +62,7 @@ public class IoK8sApiStorageV1beta1CSIDriverSpec  {
    * @return podInfoOnMount
   **/
   @JsonProperty("podInfoOnMount")
-  public Boolean isPodInfoOnMount() {
+  public Boolean getPodInfoOnMount() {
     return podInfoOnMount;
   }
 

@@ -190,7 +190,7 @@ public class IoK8sApiPolicyV1beta1PodSecurityPolicySpec  {
    * @return allowPrivilegeEscalation
   **/
   @JsonProperty("allowPrivilegeEscalation")
-  public Boolean isAllowPrivilegeEscalation() {
+  public Boolean getAllowPrivilegeEscalation() {
     return allowPrivilegeEscalation;
   }
 
@@ -369,7 +369,7 @@ public class IoK8sApiPolicyV1beta1PodSecurityPolicySpec  {
    * @return defaultAllowPrivilegeEscalation
   **/
   @JsonProperty("defaultAllowPrivilegeEscalation")
-  public Boolean isDefaultAllowPrivilegeEscalation() {
+  public Boolean getDefaultAllowPrivilegeEscalation() {
     return defaultAllowPrivilegeEscalation;
   }
 
@@ -429,7 +429,7 @@ public class IoK8sApiPolicyV1beta1PodSecurityPolicySpec  {
    * @return hostIPC
   **/
   @JsonProperty("hostIPC")
-  public Boolean isHostIPC() {
+  public Boolean getHostIPC() {
     return hostIPC;
   }
 
@@ -447,7 +447,7 @@ public class IoK8sApiPolicyV1beta1PodSecurityPolicySpec  {
    * @return hostNetwork
   **/
   @JsonProperty("hostNetwork")
-  public Boolean isHostNetwork() {
+  public Boolean getHostNetwork() {
     return hostNetwork;
   }
 
@@ -465,7 +465,7 @@ public class IoK8sApiPolicyV1beta1PodSecurityPolicySpec  {
    * @return hostPID
   **/
   @JsonProperty("hostPID")
-  public Boolean isHostPID() {
+  public Boolean getHostPID() {
     return hostPID;
   }
 
@@ -506,7 +506,7 @@ public class IoK8sApiPolicyV1beta1PodSecurityPolicySpec  {
    * @return privileged
   **/
   @JsonProperty("privileged")
-  public Boolean isPrivileged() {
+  public Boolean getPrivileged() {
     return privileged;
   }
 
@@ -524,7 +524,7 @@ public class IoK8sApiPolicyV1beta1PodSecurityPolicySpec  {
    * @return readOnlyRootFilesystem
   **/
   @JsonProperty("readOnlyRootFilesystem")
-  public Boolean isReadOnlyRootFilesystem() {
+  public Boolean getReadOnlyRootFilesystem() {
     return readOnlyRootFilesystem;
   }
 

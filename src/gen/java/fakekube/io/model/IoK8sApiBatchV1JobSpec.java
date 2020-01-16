@@ -130,7 +130,7 @@ public class IoK8sApiBatchV1JobSpec  {
    * @return manualSelector
   **/
   @JsonProperty("manualSelector")
-  public Boolean isManualSelector() {
+  public Boolean getManualSelector() {
     return manualSelector;
   }
 

@@ -30,7 +30,7 @@ public class IoK8sApiDiscoveryV1beta1EndpointConditions  {
    * @return ready
   **/
   @JsonProperty("ready")
-  public Boolean isReady() {
+  public Boolean getReady() {
     return ready;
   }
 

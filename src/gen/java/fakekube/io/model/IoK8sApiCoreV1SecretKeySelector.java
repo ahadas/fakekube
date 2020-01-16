@@ -79,7 +79,7 @@ public class IoK8sApiCoreV1SecretKeySelector  {
    * @return optional
   **/
   @JsonProperty("optional")
-  public Boolean isOptional() {
+  public Boolean getOptional() {
     return optional;
   }
 

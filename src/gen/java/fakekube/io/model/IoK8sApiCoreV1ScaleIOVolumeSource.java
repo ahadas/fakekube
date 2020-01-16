@@ -141,7 +141,7 @@ public class IoK8sApiCoreV1ScaleIOVolumeSource  {
    * @return readOnly
   **/
   @JsonProperty("readOnly")
-  public Boolean isReadOnly() {
+  public Boolean getReadOnly() {
     return readOnly;
   }
 
@@ -178,7 +178,7 @@ public class IoK8sApiCoreV1ScaleIOVolumeSource  {
    * @return sslEnabled
   **/
   @JsonProperty("sslEnabled")
-  public Boolean isSslEnabled() {
+  public Boolean getSslEnabled() {
     return sslEnabled;
   }
 

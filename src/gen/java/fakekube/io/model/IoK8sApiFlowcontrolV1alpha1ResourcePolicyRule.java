@@ -80,7 +80,7 @@ public class IoK8sApiFlowcontrolV1alpha1ResourcePolicyRule  {
    * @return clusterScope
   **/
   @JsonProperty("clusterScope")
-  public Boolean isClusterScope() {
+  public Boolean getClusterScope() {
     return clusterScope;
   }
 

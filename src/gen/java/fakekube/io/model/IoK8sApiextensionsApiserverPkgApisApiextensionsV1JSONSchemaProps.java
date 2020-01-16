@@ -443,7 +443,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1JSONSchemaProps  {
    * @return exclusiveMaximum
   **/
   @JsonProperty("exclusiveMaximum")
-  public Boolean isExclusiveMaximum() {
+  public Boolean getExclusiveMaximum() {
     return exclusiveMaximum;
   }
 
@@ -461,7 +461,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1JSONSchemaProps  {
    * @return exclusiveMinimum
   **/
   @JsonProperty("exclusiveMinimum")
-  public Boolean isExclusiveMinimum() {
+  public Boolean getExclusiveMinimum() {
     return exclusiveMinimum;
   }
 
@@ -731,7 +731,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1JSONSchemaProps  {
    * @return nullable
   **/
   @JsonProperty("nullable")
-  public Boolean isNullable() {
+  public Boolean getNullable() {
     return nullable;
   }
 
@@ -895,7 +895,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1JSONSchemaProps  {
    * @return uniqueItems
   **/
   @JsonProperty("uniqueItems")
-  public Boolean isUniqueItems() {
+  public Boolean getUniqueItems() {
     return uniqueItems;
   }
 
@@ -913,7 +913,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1JSONSchemaProps  {
    * @return xKubernetesEmbeddedResource
   **/
   @JsonProperty("x-kubernetes-embedded-resource")
-  public Boolean isXKubernetesEmbeddedResource() {
+  public Boolean getXKubernetesEmbeddedResource() {
     return xKubernetesEmbeddedResource;
   }
 
@@ -931,7 +931,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1JSONSchemaProps  {
    * @return xKubernetesIntOrString
   **/
   @JsonProperty("x-kubernetes-int-or-string")
-  public Boolean isXKubernetesIntOrString() {
+  public Boolean getXKubernetesIntOrString() {
     return xKubernetesIntOrString;
   }
 
@@ -1008,7 +1008,7 @@ public class IoK8sApiextensionsApiserverPkgApisApiextensionsV1JSONSchemaProps  {
    * @return xKubernetesPreserveUnknownFields
   **/
   @JsonProperty("x-kubernetes-preserve-unknown-fields")
-  public Boolean isXKubernetesPreserveUnknownFields() {
+  public Boolean getXKubernetesPreserveUnknownFields() {
     return xKubernetesPreserveUnknownFields;
   }
 

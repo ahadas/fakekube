@@ -190,7 +190,7 @@ public class IoK8sApiCoreV1NodeSpec  {
    * @return unschedulable
   **/
   @JsonProperty("unschedulable")
-  public Boolean isUnschedulable() {
+  public Boolean getUnschedulable() {
     return unschedulable;
   }
 

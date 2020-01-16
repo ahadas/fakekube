@@ -152,7 +152,7 @@ public class IoK8sApiCoreV1AzureDiskVolumeSource  {
    * @return readOnly
   **/
   @JsonProperty("readOnly")
-  public Boolean isReadOnly() {
+  public Boolean getReadOnly() {
     return readOnly;
   }
 

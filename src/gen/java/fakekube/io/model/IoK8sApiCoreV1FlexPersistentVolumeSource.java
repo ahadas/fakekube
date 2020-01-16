@@ -119,7 +119,7 @@ public class IoK8sApiCoreV1FlexPersistentVolumeSource  {
    * @return readOnly
   **/
   @JsonProperty("readOnly")
-  public Boolean isReadOnly() {
+  public Boolean getReadOnly() {
     return readOnly;
   }
 

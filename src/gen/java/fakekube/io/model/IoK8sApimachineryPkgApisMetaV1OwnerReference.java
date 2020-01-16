@@ -79,7 +79,7 @@ public class IoK8sApimachineryPkgApisMetaV1OwnerReference  {
    * @return blockOwnerDeletion
   **/
   @JsonProperty("blockOwnerDeletion")
-  public Boolean isBlockOwnerDeletion() {
+  public Boolean getBlockOwnerDeletion() {
     return blockOwnerDeletion;
   }
 
@@ -97,7 +97,7 @@ public class IoK8sApimachineryPkgApisMetaV1OwnerReference  {
    * @return controller
   **/
   @JsonProperty("controller")
-  public Boolean isController() {
+  public Boolean getController() {
     return controller;
   }
 

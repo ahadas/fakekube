@@ -147,7 +147,7 @@ public class IoK8sApimachineryPkgApisMetaV1DeleteOptions  {
    * @return orphanDependents
   **/
   @JsonProperty("orphanDependents")
-  public Boolean isOrphanDependents() {
+  public Boolean getOrphanDependents() {
     return orphanDependents;
   }
 

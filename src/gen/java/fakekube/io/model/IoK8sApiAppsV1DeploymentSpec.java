@@ -96,7 +96,7 @@ public class IoK8sApiAppsV1DeploymentSpec  {
    * @return paused
   **/
   @JsonProperty("paused")
-  public Boolean isPaused() {
+  public Boolean getPaused() {
     return paused;
   }
 

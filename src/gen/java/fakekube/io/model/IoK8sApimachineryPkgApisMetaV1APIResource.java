@@ -166,7 +166,7 @@ public class IoK8sApimachineryPkgApisMetaV1APIResource  {
   **/
   @JsonProperty("namespaced")
   @NotNull
-  public Boolean isNamespaced() {
+  public Boolean getNamespaced() {
     return namespaced;
   }
 

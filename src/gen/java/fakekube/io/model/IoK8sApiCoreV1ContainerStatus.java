@@ -175,7 +175,7 @@ public class IoK8sApiCoreV1ContainerStatus  {
   **/
   @JsonProperty("ready")
   @NotNull
-  public Boolean isReady() {
+  public Boolean getReady() {
     return ready;
   }
 
@@ -212,7 +212,7 @@ public class IoK8sApiCoreV1ContainerStatus  {
    * @return started
   **/
   @JsonProperty("started")
-  public Boolean isStarted() {
+  public Boolean getStarted() {
     return started;
   }
 
