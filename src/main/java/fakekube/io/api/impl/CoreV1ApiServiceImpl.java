@@ -392,6 +392,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1NamespacedPod(String namespace, IoK8sApiCoreV1Pod body, String pretty, String dryRun, String fieldManager) {
+    	body.getMetadata().creationTimestamp(DateTime.now().toString());
         pods.add(body);
         return Response.ok().entity(body).build();
     }
