@@ -41,6 +41,7 @@
 								<sourceFolder>src/gen/java/</sourceFolder>
 								<useGenericResponse>true</useGenericResponse>
 							</configOptions>
+						        <skip>true</skip>
 							<modelPackage>fakekube.io.model</modelPackage>
 							<apiPackage>fakekube.io.api</apiPackage>
 							<output>${project.basedir}</output>
