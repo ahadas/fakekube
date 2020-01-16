@@ -443,7 +443,9 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1Node(IoK8sApiCoreV1Node body, String pretty, String dryRun, String fieldManager) {
-    	body.getMetadata().setCreationTimestamp(DateTime.now().toString());
+    	body.getMetadata()
+    	.creationTimestamp(DateTime.now().toString())
+    	.selfLink("/api/v1/nodes/"+body.getMetadata().getName());
     	body.getStatus().setConditions(Arrays.asList(new IoK8sApiCoreV1NodeCondition()
     			.message("kubelet is posting ready status")
     			.status("True")
