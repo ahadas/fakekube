@@ -25,6 +25,7 @@ import fakekube.io.model.IoK8sApiCoreV1NodeList;
 import fakekube.io.model.IoK8sApiCoreV1PersistentVolume;
 import fakekube.io.model.IoK8sApiCoreV1PersistentVolumeClaim;
 import fakekube.io.model.IoK8sApiCoreV1Pod;
+import fakekube.io.model.IoK8sApiCoreV1PodList;
 import fakekube.io.model.IoK8sApiCoreV1PodTemplate;
 import fakekube.io.model.IoK8sApiCoreV1ReplicationController;
 import fakekube.io.model.IoK8sApiCoreV1ResourceQuota;
@@ -662,7 +663,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     
     public Response listCoreV1EventForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
         // TODO: Implement...
-        
+
         return Response.ok().entity("magic!").build();
     }
     
@@ -771,9 +772,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1PodForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1PodList podsList = new IoK8sApiCoreV1PodList();
+    	podsList.apiVersion("v1");
+    	podsList.setKind("List");
+    	podsList.setItems(Arrays.asList());
+        return Response.ok().entity(podsList).build();
     }
     
     public Response listCoreV1PodTemplateForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
