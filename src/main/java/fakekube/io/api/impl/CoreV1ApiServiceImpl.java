@@ -17,6 +17,7 @@ import fakekube.io.model.IoK8sApiCoreV1Binding;
 import fakekube.io.model.IoK8sApiCoreV1ConfigMap;
 import fakekube.io.model.IoK8sApiCoreV1Endpoints;
 import fakekube.io.model.IoK8sApiCoreV1Event;
+import fakekube.io.model.IoK8sApiCoreV1EventList;
 import fakekube.io.model.IoK8sApiCoreV1LimitRange;
 import fakekube.io.model.IoK8sApiCoreV1Namespace;
 import fakekube.io.model.IoK8sApiCoreV1Node;
@@ -662,9 +663,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1EventForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
+    	IoK8sApiCoreV1EventList eventList = new IoK8sApiCoreV1EventList()
+    			.apiVersion("v1")
+    			.kind("List");
+    	return Response.ok().entity(eventList).build();
 
-        return Response.ok().entity("magic!").build();
     }
     
     public Response listCoreV1LimitRangeForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
