@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.joda.time.DateTime;
+
 import fakekube.io.api.CoreV1Api;
 import fakekube.io.model.IoK8sApiAuthenticationV1TokenRequest;
 import fakekube.io.model.IoK8sApiAutoscalingV1Scale;
@@ -436,6 +438,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1Node(IoK8sApiCoreV1Node body, String pretty, String dryRun, String fieldManager) {
+    	body.getMetadata().setCreationTimestamp(DateTime.now().toString());
     	nodes.add(body);
         return Response.ok().entity(body).build();
     }
