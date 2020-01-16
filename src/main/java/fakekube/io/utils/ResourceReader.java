@@ -13,12 +13,16 @@ public class ResourceReader {
 	}
 
 	public <T> T read(String path, Class<T> classOfT) {
+		String str = read(path);
+		return str != null ? new JSON().getGson().fromJson(str, classOfT) : null;
+	}
+
+	public String read(String path) {
 		try {
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
 			byte[] bytes = new byte[inputStream.available()];
 			inputStream.read(bytes);
-			String str = new String(bytes);
-			return new JSON().getGson().fromJson(str, classOfT);
+			return new String(bytes);
 		} catch (IOException e) {
 			LOGGER.severe("failed to load APIResourceList, return empty list");
 			return null;

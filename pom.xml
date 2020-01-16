@@ -90,6 +90,11 @@
 	</build>
 	<dependencies>
 		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>3.11.1</version>
+		</dependency>
+		<dependency>
 			<groupId>io.kubernetes</groupId>
 			<artifactId>client-java-api</artifactId>
 			<version>7.0.0</version>

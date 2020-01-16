@@ -37,6 +37,7 @@ import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIResourceList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1ObjectMeta;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
+import fakekube.io.sim.model.Nodes;
 import fakekube.io.utils.ResourceReader;
 
 /**
@@ -439,9 +440,8 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1Node(IoK8sApiCoreV1Node body, String pretty, String dryRun, String fieldManager) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	Nodes.instance.add(body);
+        return Response.ok().entity(body).build();
     }
     
     public Response createCoreV1PersistentVolume(IoK8sApiCoreV1PersistentVolume body, String pretty, String dryRun, String fieldManager) {
@@ -732,12 +732,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1Node(String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-    	LOGGER.info("arik0");
     	IoK8sApiCoreV1NodeList nodes = new IoK8sApiCoreV1NodeList();
     	nodes.apiVersion("v1");
     	nodes.setKind("List");
-    	nodes.setItems(Arrays.asList(createNode("arik", true), createNode("derez", false)));
-    	LOGGER.info("arik01");
+//    	nodes.setItems(Arrays.asList(createNode("arik", true), createNode("derez", false)));
+    	nodes.setItems(Nodes.instance.list());
         return Response.ok(nodes).build();
     }
 
