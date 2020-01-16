@@ -20,6 +20,7 @@ import fakekube.io.model.IoK8sApiCoreV1Event;
 import fakekube.io.model.IoK8sApiCoreV1EventList;
 import fakekube.io.model.IoK8sApiCoreV1LimitRange;
 import fakekube.io.model.IoK8sApiCoreV1Namespace;
+import fakekube.io.model.IoK8sApiCoreV1NamespaceList;
 import fakekube.io.model.IoK8sApiCoreV1Node;
 import fakekube.io.model.IoK8sApiCoreV1NodeCondition;
 import fakekube.io.model.IoK8sApiCoreV1NodeList;
@@ -39,6 +40,7 @@ import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Status;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1StatusDetails;
+import fakekube.io.sim.model.Namespaces;
 import fakekube.io.sim.model.Nodes;
 import fakekube.io.utils.ResourceReader;
 
@@ -53,6 +55,8 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
 
 	@Inject
 	private Nodes nodes;
+	@Inject
+	private Namespaces namespaces;
 
     public Response connectCoreV1DeleteNamespacedPodProxy(String name, String namespace, String path) {
         // TODO: Implement...
@@ -677,9 +681,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1Namespace(String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1NamespaceList namespaceList = new IoK8sApiCoreV1NamespaceList();
+    	namespaceList.apiVersion("v1");
+    	namespaceList.setKind("List");
+    	namespaceList.setItems(namespaces.list());
+        return Response.ok(namespaceList).build();
     }
     
     public Response listCoreV1NamespacedConfigMap(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
