@@ -1,5 +1,6 @@
 package fakekube.io.api.impl;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import fakekube.io.model.IoK8sApiCoreV1Event;
 import fakekube.io.model.IoK8sApiCoreV1LimitRange;
 import fakekube.io.model.IoK8sApiCoreV1Namespace;
 import fakekube.io.model.IoK8sApiCoreV1Node;
+import fakekube.io.model.IoK8sApiCoreV1NodeCondition;
 import fakekube.io.model.IoK8sApiCoreV1NodeList;
 import fakekube.io.model.IoK8sApiCoreV1PersistentVolume;
 import fakekube.io.model.IoK8sApiCoreV1PersistentVolumeClaim;
@@ -439,6 +441,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     
     public Response createCoreV1Node(IoK8sApiCoreV1Node body, String pretty, String dryRun, String fieldManager) {
     	body.getMetadata().setCreationTimestamp(DateTime.now().toString());
+    	body.getStatus().setConditions(Arrays.asList(new IoK8sApiCoreV1NodeCondition()
+    			.message("kubelet is posting ready status")
+    			.status("True")
+    			.reason("KubeletReady")
+    			.type("Ready")));
     	nodes.add(body);
         return Response.ok().entity(body).build();
     }
