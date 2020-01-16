@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
+import org.joda.time.DateTime;
+
 import fakekube.io.model.IoK8sApiCoreV1Namespace;
 import fakekube.io.model.IoK8sApiCoreV1NamespaceStatus;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1ObjectMeta;
@@ -22,7 +24,7 @@ public class Namespaces {
 		defaultNamespace = new IoK8sApiCoreV1Namespace()
 				.apiVersion("v1")
 				.kind("Namespace")
-				.metadata(new IoK8sApimachineryPkgApisMetaV1ObjectMeta().name("default"))
+				.metadata(new IoK8sApimachineryPkgApisMetaV1ObjectMeta().name("default").creationTimestamp(DateTime.now().toString()))
 				.status(new IoK8sApiCoreV1NamespaceStatus().phase("Active"));
 		namespaces.put(defaultNamespace.getMetadata().getName(), defaultNamespace);
 	}
