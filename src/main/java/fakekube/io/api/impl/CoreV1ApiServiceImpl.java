@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.joda.time.DateTime;
@@ -34,6 +35,8 @@ import fakekube.io.model.IoK8sApiPolicyV1beta1Eviction;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIResourceList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
+import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Status;
+import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1StatusDetails;
 import fakekube.io.sim.model.Nodes;
 import fakekube.io.utils.ResourceReader;
 
@@ -613,9 +616,17 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response deleteCoreV1Node(String name, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Node node = nodes.delete(name);
+    	IoK8sApimachineryPkgApisMetaV1Status s = new IoK8sApimachineryPkgApisMetaV1Status()
+    			.apiVersion("v1")
+    			.kind("Status")
+    			.status("Success")
+    			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+    					.kind("nodes")
+    					.name(node.getMetadata().getName())
+    					.uid(node.getMetadata().getUid()))
+    			.code(200);
+    	return Response.ok(s).build();
     }
     
     public Response deleteCoreV1PersistentVolume(String name, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
@@ -1076,9 +1087,22 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response readCoreV1Node(String name, String pretty, Boolean exact, Boolean export) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Node node = nodes.get(name);
+    	ResponseBuilder resp;
+        if (node == null) {
+        	resp = Response.status(404).entity(new IoK8sApimachineryPkgApisMetaV1Status()
+        			.apiVersion("v1")
+        			.kind("Status")
+        			.status("Failure")
+        			.reason("NotFound")
+        			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+        					.kind("nodes")
+        					.name(name))
+        			.code(404));
+        } else {
+        	resp = Response.ok(node);
+        }
+        return resp.build();
     }
     
     public Response readCoreV1NodeStatus(String name, String pretty) {
