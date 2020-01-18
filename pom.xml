@@ -24,6 +24,16 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.tomee.maven</groupId>
+				<artifactId>tomee-maven-plugin</artifactId>
+				<version>8.0.0</version>
+				<configuration>
+					<tomeeClassifier>plume</tomeeClassifier>
+					<args>-Xmx512m -XX:PermSize=256m</args>
+					<context>ROOT</context>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
 				<version>2.4.10</version>
@@ -41,7 +51,7 @@
 								<sourceFolder>src/gen/java/</sourceFolder>
 								<useGenericResponse>true</useGenericResponse>
 							</configOptions>
-						        <skip>true</skip>
+							<skip>true</skip>
 							<modelPackage>fakekube.io.model</modelPackage>
 							<apiPackage>fakekube.io.api</apiPackage>
 							<output>${project.basedir}</output>
