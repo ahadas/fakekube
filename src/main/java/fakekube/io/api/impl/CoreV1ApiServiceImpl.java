@@ -21,6 +21,7 @@ import fakekube.io.model.IoK8sApiCoreV1EventList;
 import fakekube.io.model.IoK8sApiCoreV1LimitRange;
 import fakekube.io.model.IoK8sApiCoreV1Namespace;
 import fakekube.io.model.IoK8sApiCoreV1NamespaceList;
+import fakekube.io.model.IoK8sApiCoreV1NamespaceStatus;
 import fakekube.io.model.IoK8sApiCoreV1Node;
 import fakekube.io.model.IoK8sApiCoreV1NodeCondition;
 import fakekube.io.model.IoK8sApiCoreV1NodeList;
@@ -350,9 +351,10 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1Namespace(IoK8sApiCoreV1Namespace body, String pretty, String dryRun, String fieldManager) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+         body.getMetadata().creationTimestamp(DateTime.now().toString());
+         body.status(new IoK8sApiCoreV1NamespaceStatus().phase("Active"));
+         namespaces.add(body);
+         return Response.ok().entity(body).build();
     }
     
     public Response createCoreV1NamespacedBinding(String namespace, IoK8sApiCoreV1Binding body, String dryRun, String fieldManager, String pretty) {
