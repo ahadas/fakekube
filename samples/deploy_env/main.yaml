@@ -27,6 +27,6 @@
       command: kubectl create -f ../namespace.json
 
     - name: Create pod
-      command: kubectl create -f ../pod.yaml
+      command: kubectl create -f ../pod-default-namespace.yaml
 
 
