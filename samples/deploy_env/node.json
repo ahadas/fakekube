@@ -1,0 +1,23 @@
+{
+    "apiVersion": "v1",
+    "kind": "Node",
+    "metadata": {
+        "labels": {{ labels }},
+        "name": "{{ node_name }}"
+    },
+    "spec": {},
+    "status": {
+        "nodeInfo": {
+            "kubeProxyVersion": "v1.13.3",
+            "kubeletVersion": "v1.13.3",
+	    "bootID": "aaaa",
+	    "machineID": "asadad",
+	    "kernelVersion": "1234",
+	    "containerRuntimeVersion": "111",
+	    "systemUUID": "aaa",
+	    "operatingSystem": "linux",
+	    "architecture": "x86",
+	    "osImage": "aasdad"
+        }
+    }
+}
