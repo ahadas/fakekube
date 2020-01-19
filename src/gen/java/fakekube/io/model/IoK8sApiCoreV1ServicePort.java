@@ -1,18 +1,15 @@
 package fakekube.io.model;
 
-import io.swagger.annotations.ApiModel;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import org.apache.johnzon.mapper.JohnzonConverter;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import fakekube.io.utils.IntOrStringConverter;
+import io.kubernetes.client.custom.IntOrString;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
   * ServicePort contains information on service's port.
@@ -48,7 +45,8 @@ public class IoK8sApiCoreV1ServicePort  {
  /**
    * Number or name of the port to access on the pods targeted by the service. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. If this is a string, it will be looked up as a named port in the target Pod's container ports. If this is not specified, the value of the 'port' field is used (an identity map). This field is ignored for services with clusterIP=None, and should be omitted or set equal to the 'port' field. More info: https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service
   **/
-  private String targetPort = null;
+  @JohnzonConverter(IntOrStringConverter.class)
+  private IntOrString targetPort = null;
  /**
    * The name of this port within the service. This must be a DNS_LABEL. All ports within a ServiceSpec must have unique names. When considering the endpoints for a Service, this must match the &#39;name&#39; field in the EndpointPort. Optional if only one ServicePort is defined on this service.
    * @return name
@@ -127,15 +125,15 @@ public class IoK8sApiCoreV1ServicePort  {
    * @return targetPort
   **/
   @JsonProperty("targetPort")
-  public String getTargetPort() {
+  public IntOrString getTargetPort() {
     return targetPort;
   }
 
-  public void setTargetPort(String targetPort) {
+  public void setTargetPort(IntOrString targetPort) {
     this.targetPort = targetPort;
   }
 
-  public IoK8sApiCoreV1ServicePort targetPort(String targetPort) {
+  public IoK8sApiCoreV1ServicePort targetPort(IntOrString targetPort) {
     this.targetPort = targetPort;
     return this;
   }
