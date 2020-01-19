@@ -1,0 +1,23 @@
+{
+  "kind": "APIGroup",
+  "apiVersion": "v1",
+  "name": "apps",
+  "versions": [
+    {
+      "groupVersion": "apps/v1",
+      "version": "v1"
+    },
+    {
+      "groupVersion": "apps/v1beta2",
+      "version": "v1beta2"
+    },
+    {
+      "groupVersion": "apps/v1beta1",
+      "version": "v1beta1"
+    }
+  ],
+  "preferredVersion": {
+    "groupVersion": "apps/v1",
+    "version": "v1"
+  }
+}

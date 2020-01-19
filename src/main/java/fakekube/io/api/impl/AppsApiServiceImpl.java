@@ -2,6 +2,7 @@ package fakekube.io.api.impl;
 
 import fakekube.io.api.*;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIGroup;
+import fakekube.io.utils.ResourceReader;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.cxf.jaxrs.model.wadl.Description;
 import org.apache.cxf.jaxrs.model.wadl.DocTarget;
 
@@ -24,9 +27,8 @@ import io.swagger.annotations.Api;
  */
 public class AppsApiServiceImpl implements AppsApi {
     public Response getAppsAPIGroup() {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApimachineryPkgApisMetaV1APIGroup obj = new ResourceReader().read("apps_groups.json", IoK8sApimachineryPkgApisMetaV1APIGroup.class);
+        return (obj != null ? Response.ok(obj) : Response.status(Status.BAD_REQUEST)).build();
     }
     
 }

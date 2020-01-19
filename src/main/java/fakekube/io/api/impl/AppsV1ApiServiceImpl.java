@@ -1,35 +1,23 @@
 package fakekube.io.api.impl;
 
-import fakekube.io.api.*;
+import javax.inject.Inject;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.joda.time.DateTime;
+
+import fakekube.io.api.AppsV1Api;
 import fakekube.io.model.IoK8sApiAppsV1ControllerRevision;
-import fakekube.io.model.IoK8sApiAppsV1ControllerRevisionList;
 import fakekube.io.model.IoK8sApiAppsV1DaemonSet;
-import fakekube.io.model.IoK8sApiAppsV1DaemonSetList;
 import fakekube.io.model.IoK8sApiAppsV1Deployment;
-import fakekube.io.model.IoK8sApiAppsV1DeploymentList;
 import fakekube.io.model.IoK8sApiAppsV1ReplicaSet;
-import fakekube.io.model.IoK8sApiAppsV1ReplicaSetList;
 import fakekube.io.model.IoK8sApiAppsV1StatefulSet;
-import fakekube.io.model.IoK8sApiAppsV1StatefulSetList;
 import fakekube.io.model.IoK8sApiAutoscalingV1Scale;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIResourceList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
-import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Status;
-import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1WatchEvent;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import org.apache.cxf.jaxrs.model.wadl.Description;
-import org.apache.cxf.jaxrs.model.wadl.DocTarget;
-
-import org.apache.cxf.jaxrs.ext.multipart.*;
-
-import io.swagger.annotations.Api;
+import fakekube.io.sim.model.Deployments;
+import fakekube.io.utils.ResourceReader;
 
 /**
  * Kubernetes
@@ -38,6 +26,9 @@ import io.swagger.annotations.Api;
  *
  */
 public class AppsV1ApiServiceImpl implements AppsV1Api {
+	@Inject
+	private Deployments deployments;
+
     public Response createAppsV1NamespacedControllerRevision(String namespace, IoK8sApiAppsV1ControllerRevision body, String pretty, String dryRun, String fieldManager) {
         // TODO: Implement...
         
@@ -51,9 +42,9 @@ public class AppsV1ApiServiceImpl implements AppsV1Api {
     }
     
     public Response createAppsV1NamespacedDeployment(String namespace, IoK8sApiAppsV1Deployment body, String pretty, String dryRun, String fieldManager) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	body.getMetadata().creationTimestamp(DateTime.now().toString());
+        deployments.add(body);
+        return Response.ok(body).build();
     }
     
     public Response createAppsV1NamespacedReplicaSet(String namespace, IoK8sApiAppsV1ReplicaSet body, String pretty, String dryRun, String fieldManager) {
@@ -129,9 +120,8 @@ public class AppsV1ApiServiceImpl implements AppsV1Api {
     }
     
     public Response getAppsV1APIResources() {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApimachineryPkgApisMetaV1APIResourceList obj = new ResourceReader().read("apps_resources.json", IoK8sApimachineryPkgApisMetaV1APIResourceList.class);
+        return (obj != null ? Response.ok(obj) : Response.status(Status.BAD_REQUEST)).build();
     }
     
     public Response listAppsV1ControllerRevisionForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
