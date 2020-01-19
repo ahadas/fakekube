@@ -8,6 +8,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import fakekube.io.model.IoK8sApiCoreV1ServiceList;
+import fakekube.io.sim.model.Services;
 import org.joda.time.DateTime;
 
 import fakekube.io.api.CoreV1Api;
@@ -61,6 +63,8 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
 	private Namespaces namespaces;
 	@Inject
 	private Pods pods;
+    @Inject
+    private Services services;
 
     public Response connectCoreV1DeleteNamespacedPodProxy(String name, String namespace, String path) {
         // TODO: Implement...
@@ -756,9 +760,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1NamespacedService(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+        IoK8sApiCoreV1ServiceList podList = new IoK8sApiCoreV1ServiceList()
+                .apiVersion("v1")
+                .kind("List")
+                .items(services.list(namespace));
+        return Response.ok().entity(podList).build();
     }
     
     public Response listCoreV1NamespacedServiceAccount(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
