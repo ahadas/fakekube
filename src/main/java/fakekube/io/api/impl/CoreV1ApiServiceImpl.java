@@ -440,9 +440,9 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1NamespacedService(String namespace, IoK8sApiCoreV1Service body, String pretty, String dryRun, String fieldManager) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	body.getMetadata().creationTimestamp(DateTime.now().toString());
+        services.add(body);
+        return Response.ok(body).build();
     }
     
     public Response createCoreV1NamespacedServiceAccount(String namespace, IoK8sApiCoreV1ServiceAccount body, String pretty, String dryRun, String fieldManager) {
@@ -637,9 +637,17 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response deleteCoreV1NamespacedService(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Service service = services.delete(namespace, name);
+    	IoK8sApimachineryPkgApisMetaV1Status s = new IoK8sApimachineryPkgApisMetaV1Status()
+    			.apiVersion("v1")
+    			.kind("Status")
+    			.status("Success")
+    			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+    					.kind("services")
+    					.name(service.getMetadata().getName())
+    					.uid(service.getMetadata().getUid()))
+    			.code(200);
+    	return Response.ok(s).build();
     }
     
     public Response deleteCoreV1NamespacedServiceAccount(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
@@ -1138,9 +1146,22 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response readCoreV1NamespacedService(String name, String namespace, String pretty, Boolean exact, Boolean export) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Service service = services.get(namespace, name);
+    	ResponseBuilder resp;
+        if (service == null) {
+        	resp = Response.status(404).entity(new IoK8sApimachineryPkgApisMetaV1Status()
+        			.apiVersion("v1")
+        			.kind("Status")
+        			.status("Failure")
+        			.reason("NotFound")
+        			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+        					.kind("services")
+        					.name(name))
+        			.code(404));
+        } else {
+        	resp = Response.ok(service);
+        }
+        return resp.build();
     }
     
     public Response readCoreV1NamespacedServiceAccount(String name, String namespace, String pretty, Boolean exact, Boolean export) {
