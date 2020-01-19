@@ -776,11 +776,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1NamespacedService(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        IoK8sApiCoreV1ServiceList podList = new IoK8sApiCoreV1ServiceList()
+        IoK8sApiCoreV1ServiceList serviceList = new IoK8sApiCoreV1ServiceList()
                 .apiVersion("v1")
                 .kind("List")
                 .items(services.list(namespace));
-        return Response.ok().entity(podList).build();
+        return Response.ok().entity(serviceList).build();
     }
     
     public Response listCoreV1NamespacedServiceAccount(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
