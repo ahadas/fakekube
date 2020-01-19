@@ -551,9 +551,17 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response deleteCoreV1Namespace(String name, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Namespace namespace = namespaces.delete(name);
+    	IoK8sApimachineryPkgApisMetaV1Status s = new IoK8sApimachineryPkgApisMetaV1Status()
+    			.apiVersion("v1")
+    			.kind("Status")
+    			.status("Success")
+    			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+    					.kind("namespaces")
+    					.name(namespace.getMetadata().getName())
+    					.uid(namespace.getMetadata().getUid()))
+    			.code(200);
+        return Response.ok(namespace).build();
     }
     
     public Response deleteCoreV1NamespacedConfigMap(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
@@ -990,9 +998,22 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response readCoreV1Namespace(String name, String pretty, Boolean exact, Boolean export) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Namespace namespace = namespaces.get(name);
+    	ResponseBuilder resp;
+        if (namespace == null) {
+        	resp = Response.status(404).entity(new IoK8sApimachineryPkgApisMetaV1Status()
+        			.apiVersion("v1")
+        			.kind("Status")
+        			.status("Failure")
+        			.reason("NotFound")
+        			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+        					.kind("namespaces")
+        					.name(name))
+        			.code(404));
+        } else {
+        	resp = Response.ok(namespace);
+        }
+        return resp.build();
     }
     
     public Response readCoreV1NamespaceStatus(String name, String pretty) {
