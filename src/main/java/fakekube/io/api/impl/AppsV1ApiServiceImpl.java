@@ -10,9 +10,11 @@ import fakekube.io.api.AppsV1Api;
 import fakekube.io.model.IoK8sApiAppsV1ControllerRevision;
 import fakekube.io.model.IoK8sApiAppsV1DaemonSet;
 import fakekube.io.model.IoK8sApiAppsV1Deployment;
+import fakekube.io.model.IoK8sApiAppsV1DeploymentList;
 import fakekube.io.model.IoK8sApiAppsV1ReplicaSet;
 import fakekube.io.model.IoK8sApiAppsV1StatefulSet;
 import fakekube.io.model.IoK8sApiAutoscalingV1Scale;
+import fakekube.io.model.IoK8sApiCoreV1PodList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIResourceList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
@@ -137,9 +139,11 @@ public class AppsV1ApiServiceImpl implements AppsV1Api {
     }
     
     public Response listAppsV1DeploymentForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiAppsV1DeploymentList deploymentList = new IoK8sApiAppsV1DeploymentList()
+    			.apiVersion("v1")
+    			.kind("List")
+    			.items(deployments.list());
+        return Response.ok().entity(deploymentList).build();
     }
     
     public Response listAppsV1NamespacedControllerRevision(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
@@ -155,9 +159,11 @@ public class AppsV1ApiServiceImpl implements AppsV1Api {
     }
     
     public Response listAppsV1NamespacedDeployment(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiAppsV1DeploymentList deploymentList = new IoK8sApiAppsV1DeploymentList()
+    			.apiVersion("v1")
+    			.kind("List")
+    			.items(deployments.list(namespace));
+        return Response.ok().entity(deploymentList).build();
     }
     
     public Response listAppsV1NamespacedReplicaSet(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
