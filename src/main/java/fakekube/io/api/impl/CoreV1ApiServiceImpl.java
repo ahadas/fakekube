@@ -587,9 +587,17 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response deleteCoreV1NamespacedPod(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Pod pod = pods.delete(namespace, name);
+    	IoK8sApimachineryPkgApisMetaV1Status s = new IoK8sApimachineryPkgApisMetaV1Status()
+    			.apiVersion("v1")
+    			.kind("Status")
+    			.status("Success")
+    			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+    					.kind("pods")
+    					.name(pod.getMetadata().getName())
+    					.uid(pod.getMetadata().getUid()))
+    			.code(200);
+    	return Response.ok(s).build();
     }
     
     public Response deleteCoreV1NamespacedPodTemplate(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
@@ -1030,9 +1038,22 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response readCoreV1NamespacedPod(String name, String namespace, String pretty, Boolean exact, Boolean export) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1Pod pod = pods.get(namespace, name);
+    	ResponseBuilder resp;
+        if (pod == null) {
+        	resp = Response.status(404).entity(new IoK8sApimachineryPkgApisMetaV1Status()
+        			.apiVersion("v1")
+        			.kind("Status")
+        			.status("Failure")
+        			.reason("NotFound")
+        			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+        					.kind("pods")
+        					.name(name))
+        			.code(404));
+        } else {
+        	resp = Response.ok(pod);
+        }
+        return resp.build();
     }
     
     public Response readCoreV1NamespacedPodLog(String name, String namespace, String container, Boolean follow, Boolean insecureSkipTLSVerifyBackend, Integer limitBytes, String pretty, Boolean previous, Integer sinceSeconds, Integer tailLines, Boolean timestamps) {
