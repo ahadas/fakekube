@@ -2,6 +2,7 @@ package fakekube.io.api.impl;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.joda.time.DateTime;
@@ -14,10 +15,11 @@ import fakekube.io.model.IoK8sApiAppsV1DeploymentList;
 import fakekube.io.model.IoK8sApiAppsV1ReplicaSet;
 import fakekube.io.model.IoK8sApiAppsV1StatefulSet;
 import fakekube.io.model.IoK8sApiAutoscalingV1Scale;
-import fakekube.io.model.IoK8sApiCoreV1PodList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIResourceList;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
+import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Status;
+import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1StatusDetails;
 import fakekube.io.sim.model.Deployments;
 import fakekube.io.utils.ResourceReader;
 
@@ -104,9 +106,17 @@ public class AppsV1ApiServiceImpl implements AppsV1Api {
     }
     
     public Response deleteAppsV1NamespacedDeployment(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiAppsV1Deployment deployment = deployments.delete(namespace, name);
+    	IoK8sApimachineryPkgApisMetaV1Status s = new IoK8sApimachineryPkgApisMetaV1Status()
+    			.apiVersion("v1")
+    			.kind("Status")
+    			.status("Success")
+    			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+    					.kind("deployments")
+    					.name(deployment.getMetadata().getName())
+    					.uid(deployment.getMetadata().getUid()))
+    			.code(200);
+    	return Response.ok(s).build();
     }
     
     public Response deleteAppsV1NamespacedReplicaSet(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
@@ -281,9 +291,22 @@ public class AppsV1ApiServiceImpl implements AppsV1Api {
     }
     
     public Response readAppsV1NamespacedDeployment(String name, String namespace, String pretty, Boolean exact, Boolean export) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiAppsV1Deployment deployment = deployments.get(namespace, name);
+    	ResponseBuilder resp;
+        if (deployment == null) {
+        	resp = Response.status(404).entity(new IoK8sApimachineryPkgApisMetaV1Status()
+        			.apiVersion("v1")
+        			.kind("Status")
+        			.status("Failure")
+        			.reason("NotFound")
+        			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+        					.kind("deployments")
+        					.name(name))
+        			.code(404));
+        } else {
+        	resp = Response.ok(deployment);
+        }
+        return resp.build();
     }
     
     public Response readAppsV1NamespacedDeploymentScale(String name, String namespace, String pretty) {
