@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: memory-demo2
+  name: demo-pod-default
   namespace: default
 spec:
   containers:
-  - name: memory-demo-ctr
-    image: polinux/stress
+  - name: demo-pod
+    image: fakekube/test
     resources:
       limits:
         memory: "200Mi"
