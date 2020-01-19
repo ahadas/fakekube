@@ -1,0 +1,32 @@
+---
+
+- name: Deploy testing env
+  hosts: localhost
+  tasks:
+    - template:
+        src: node.json
+        dest: node_master.json
+      vars:
+        node_name: my-master-node
+        labels: '{ "node-role.kubernetes.io/master": "" }'
+
+    - template:
+        src: node.json
+        dest: node_worker.json
+      vars:
+        node_name: my-worker-node
+        labels: '{}'
+
+    - name: Create master node
+      command: kubectl create -f node_master.json
+
+    - name: Create worker node
+      command: kubectl create -f node_worker.json
+
+    - name: Create namespace
+      command: kubectl create -f ../namespace.json
+
+    - name: Create pod
+      command: kubectl create -f ../pod.yaml
+
+
