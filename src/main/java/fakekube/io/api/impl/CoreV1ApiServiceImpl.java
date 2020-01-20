@@ -17,6 +17,7 @@ import fakekube.io.model.IoK8sApiAuthenticationV1TokenRequest;
 import fakekube.io.model.IoK8sApiAutoscalingV1Scale;
 import fakekube.io.model.IoK8sApiCoreV1Binding;
 import fakekube.io.model.IoK8sApiCoreV1ConfigMap;
+import fakekube.io.model.IoK8sApiCoreV1ConfigMapList;
 import fakekube.io.model.IoK8sApiCoreV1Endpoints;
 import fakekube.io.model.IoK8sApiCoreV1Event;
 import fakekube.io.model.IoK8sApiCoreV1EventList;
@@ -691,9 +692,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1ConfigMapForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1ConfigMapList configmapList = new IoK8sApiCoreV1ConfigMapList()
+    			.apiVersion("v1")
+    			.kind("List")
+    			.items(configmaps.list());
+        return Response.ok(configmapList).build();
     }
     
     public Response listCoreV1EndpointsForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
@@ -725,9 +728,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1NamespacedConfigMap(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1ConfigMapList configmapList = new IoK8sApiCoreV1ConfigMapList()
+    			.apiVersion("v1")
+    			.kind("List")
+    			.items(configmaps.list(namespace));
+        return Response.ok(configmapList).build();
     }
     
     public Response listCoreV1NamespacedEndpoints(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
@@ -759,7 +764,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     			.apiVersion("v1")
     			.kind("List")
     			.items(pods.list(namespace));
-        return Response.ok().entity(podList).build();
+        return Response.ok(podList).build();
     }
     
     public Response listCoreV1NamespacedPodTemplate(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
