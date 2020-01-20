@@ -7,10 +7,10 @@ items:
   kind: ConfigMap
   metadata:
     creationTimestamp: "2020-01-20T08:41:10Z"
-    name: my-config-map
+    name: my-configmap
     namespace: default
     resourceVersion: "3604679"
-    selfLink: /api/v1/namespaces/default/configmaps/my-config-map
+    selfLink: /api/v1/namespaces/default/configmaps/my-configmap
     uid: d73530de-86ad-4e35-8c61-d74fabc97bc3
 kind: List
 metadata:

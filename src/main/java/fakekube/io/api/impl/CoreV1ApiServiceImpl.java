@@ -573,9 +573,17 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response deleteCoreV1NamespacedConfigMap(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1ConfigMap configmap = configmaps.delete(namespace, name);
+    	IoK8sApimachineryPkgApisMetaV1Status s = new IoK8sApimachineryPkgApisMetaV1Status()
+    			.apiVersion("v1")
+    			.kind("Status")
+    			.status("Success")
+    			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+    					.kind("configmaps")
+    					.name(configmap.getMetadata().getName())
+    					.uid(configmap.getMetadata().getUid()))
+    			.code(200);
+    	return Response.ok(s).build();
     }
     
     public Response deleteCoreV1NamespacedEndpoints(String name, String namespace, String pretty, IoK8sApimachineryPkgApisMetaV1DeleteOptions body, String dryRun, Integer gracePeriodSeconds, Boolean orphanDependents, String propagationPolicy) {
@@ -1045,9 +1053,22 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response readCoreV1NamespacedConfigMap(String name, String namespace, String pretty, Boolean exact, Boolean export) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1ConfigMap configmap = configmaps.get(namespace, name);
+    	ResponseBuilder resp;
+        if (configmap == null) {
+        	resp = Response.status(404).entity(new IoK8sApimachineryPkgApisMetaV1Status()
+        			.apiVersion("v1")
+        			.kind("Status")
+        			.status("Failure")
+        			.reason("NotFound")
+        			.details(new IoK8sApimachineryPkgApisMetaV1StatusDetails()
+        					.kind("configmaps")
+        					.name(name))
+        			.code(404));
+        } else {
+        	resp = Response.ok(configmap);
+        }
+        return resp.build();
     }
     
     public Response readCoreV1NamespacedEndpoints(String name, String namespace, String pretty, Boolean exact, Boolean export) {
