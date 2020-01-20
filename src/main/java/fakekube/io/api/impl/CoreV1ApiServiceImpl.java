@@ -49,6 +49,7 @@ import fakekube.io.sim.model.Namespaces;
 import fakekube.io.sim.model.Nodes;
 import fakekube.io.sim.model.Pods;
 import fakekube.io.utils.ResourceReader;
+import fakekube.io.utils.Selflinks;
 
 /**
  * Kubernetes
@@ -464,7 +465,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     public Response createCoreV1Node(IoK8sApiCoreV1Node body, String pretty, String dryRun, String fieldManager) {
     	body.getMetadata()
     	.creationTimestamp(DateTime.now().toString())
-    	.selfLink("/api/v1/nodes/"+body.getMetadata().getName());
+    	.selfLink(Selflinks.generate(body));
     	body.getStatus().setConditions(Arrays.asList(new IoK8sApiCoreV1NodeCondition()
     			.message("kubelet is posting ready status")
     			.status("True")
