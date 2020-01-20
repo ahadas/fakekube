@@ -764,7 +764,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     	IoK8sApiCoreV1LimitRangeList limitrangeList = new IoK8sApiCoreV1LimitRangeList()
     			.apiVersion("v1")
     			.kind("LimitRangeList")
-    			.items(Arrays.asList()); // TODO: manage quotas?
+    			.items(Arrays.asList()); // TODO: manage limit ranges?
         return Response.ok(limitrangeList).build();
     }
     
