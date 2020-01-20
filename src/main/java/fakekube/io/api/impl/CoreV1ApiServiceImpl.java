@@ -22,6 +22,7 @@ import fakekube.io.model.IoK8sApiCoreV1Endpoints;
 import fakekube.io.model.IoK8sApiCoreV1Event;
 import fakekube.io.model.IoK8sApiCoreV1EventList;
 import fakekube.io.model.IoK8sApiCoreV1LimitRange;
+import fakekube.io.model.IoK8sApiCoreV1LimitRangeList;
 import fakekube.io.model.IoK8sApiCoreV1Namespace;
 import fakekube.io.model.IoK8sApiCoreV1NamespaceList;
 import fakekube.io.model.IoK8sApiCoreV1NamespaceStatus;
@@ -35,6 +36,7 @@ import fakekube.io.model.IoK8sApiCoreV1PodList;
 import fakekube.io.model.IoK8sApiCoreV1PodTemplate;
 import fakekube.io.model.IoK8sApiCoreV1ReplicationController;
 import fakekube.io.model.IoK8sApiCoreV1ResourceQuota;
+import fakekube.io.model.IoK8sApiCoreV1ResourceQuotaList;
 import fakekube.io.model.IoK8sApiCoreV1Secret;
 import fakekube.io.model.IoK8sApiCoreV1Service;
 import fakekube.io.model.IoK8sApiCoreV1ServiceAccount;
@@ -759,9 +761,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1NamespacedLimitRange(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1LimitRangeList limitrangeList = new IoK8sApiCoreV1LimitRangeList()
+    			.apiVersion("v1")
+    			.kind("LimitRangeList")
+    			.items(Arrays.asList()); // TODO: manage quotas?
+        return Response.ok(limitrangeList).build();
     }
     
     public Response listCoreV1NamespacedPersistentVolumeClaim(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
@@ -791,9 +795,11 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response listCoreV1NamespacedResourceQuota(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	IoK8sApiCoreV1ResourceQuotaList quotaList = new IoK8sApiCoreV1ResourceQuotaList()
+    			.apiVersion("v1")
+    			.kind("ResourceQuotaList")
+    			.items(Arrays.asList()); // TODO: manage quotas?
+        return Response.ok(quotaList).build();
     }
     
     public Response listCoreV1NamespacedSecret(String namespace, String pretty, Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
