@@ -839,7 +839,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     public Response listCoreV1PodForAllNamespaces(Boolean allowWatchBookmarks, String _continue, String fieldSelector, String labelSelector, Integer limit, String pretty, String resourceVersion, Integer timeoutSeconds, Boolean watch) {
     	IoK8sApiCoreV1PodList podList = new IoK8sApiCoreV1PodList()
     			.apiVersion("v1")
-    			.kind("List")
+    			.kind("PodList")
     			.items(pods.list());
         return Response.ok().entity(podList).build();
     }
