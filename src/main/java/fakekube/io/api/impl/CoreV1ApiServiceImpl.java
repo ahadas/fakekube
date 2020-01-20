@@ -43,6 +43,7 @@ import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1DeleteOptions;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Patch;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1Status;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1StatusDetails;
+import fakekube.io.sim.model.Configmaps;
 import fakekube.io.sim.model.Namespaces;
 import fakekube.io.sim.model.Nodes;
 import fakekube.io.sim.model.Pods;
@@ -65,6 +66,8 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
 	private Pods pods;
     @Inject
     private Services services;
+    @Inject
+    private Configmaps configmaps;
 
     public Response connectCoreV1DeleteNamespacedPodProxy(String name, String namespace, String path) {
         // TODO: Implement...
@@ -368,9 +371,9 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     }
     
     public Response createCoreV1NamespacedConfigMap(String namespace, IoK8sApiCoreV1ConfigMap body, String pretty, String dryRun, String fieldManager) {
-        // TODO: Implement...
-        
-        return Response.ok().entity("magic!").build();
+    	body.getMetadata().creationTimestamp(DateTime.now().toString());
+        configmaps.add(body);
+        return Response.ok(body).build();
     }
     
     public Response createCoreV1NamespacedEndpoints(String namespace, IoK8sApiCoreV1Endpoints body, String pretty, String dryRun, String fieldManager) {
@@ -400,7 +403,7 @@ public class CoreV1ApiServiceImpl implements CoreV1Api {
     public Response createCoreV1NamespacedPod(String namespace, IoK8sApiCoreV1Pod body, String pretty, String dryRun, String fieldManager) {
     	body.getMetadata().creationTimestamp(DateTime.now().toString());
         pods.add(body);
-        return Response.ok().entity(body).build();
+        return Response.ok(body).build();
     }
     
     public Response createCoreV1NamespacedPodBinding(String name, String namespace, IoK8sApiCoreV1Binding body, String dryRun, String fieldManager, String pretty) {
