@@ -9,6 +9,22 @@
     },
     "spec": {},
     "status": {
+	"allocatable": {
+            "cpu": "4",
+            "ephemeral-storage": "92240061083",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "32772864Ki",
+            "pods": "110"
+	},
+        "capacity": {
+            "cpu": "4",
+            "ephemeral-storage": "100086872Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "32875264Ki",
+            "pods": "110"
+	},
         "nodeInfo": {
             "kubeProxyVersion": "v1.13.3",
             "kubeletVersion": "v1.13.3",
