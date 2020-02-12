@@ -15,9 +15,11 @@ import fakekube.io.model.IoK8sApiCoreV1Node;
 public class Nodes {
 
 	private Map<String, IoK8sApiCoreV1Node> nodes = new HashMap<>();
+	private List<Observer<IoK8sApiCoreV1Node>> observers = new ArrayList<>();
 
 	public void add(IoK8sApiCoreV1Node node) {
 		nodes.put(node.getMetadata().getName(), node);
+		observers.forEach(o -> o.added(node));
 	}
 
 	public List<IoK8sApiCoreV1Node> list() {
@@ -29,6 +31,16 @@ public class Nodes {
 	}
 
 	public IoK8sApiCoreV1Node delete(String name) {
-		return nodes.remove(name);
+		IoK8sApiCoreV1Node node = nodes.remove(name);
+		observers.forEach(o -> o.deleted(node));
+		return node;
+	}
+
+	public void register(Observer<IoK8sApiCoreV1Node> observer) {
+		observers.add(observer);
+	}
+
+	public void unregister(Observer<IoK8sApiCoreV1Node> observer) {
+		observers.remove(observer);
 	}
 }

@@ -1,5 +1,7 @@
 package fakekube.io.utils;
 
+import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+
 public class NamespacedName {
 
 	private String namespace;
@@ -19,6 +21,10 @@ public class NamespacedName {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public NamespacedName(IoK8sApimachineryPkgApisMetaV1ObjectMeta metadata) {
+		this(metadata.getNamespace(), metadata.getName());
 	}
 
 	public NamespacedName(String namespace, String name) {
