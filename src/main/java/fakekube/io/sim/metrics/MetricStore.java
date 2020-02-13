@@ -19,7 +19,7 @@ public class MetricStore implements Observer<IoK8sApiCoreV1Node> {
 
 	@Override
 	public void added(IoK8sApiCoreV1Node node) {
-		nodeMetrics.put(new NamespacedName(node.getMetadata()), new NodeMetrics(node));
+		nodeMetrics.put(new NamespacedName(node.getMetadata()), new NodeMetrics());
 	}
 
 	@Override

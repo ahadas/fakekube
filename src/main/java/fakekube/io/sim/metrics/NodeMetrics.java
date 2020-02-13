@@ -8,16 +8,10 @@ import io.kubernetes.client.custom.Quantity;
 import io.prometheus.client.Gauge;
 
 public class NodeMetrics {
-	private Map<Key, Gauge> metrics = new HashMap<>();
+	private static Map<Key, Gauge> metrics = new HashMap<>();
+	private static final String[] CAPACITY_LABELS = new String[] { "node", "resource", "unit" };
 
-	private static enum Key {
-		KUBE_NODE_STATUS_CAPACITY,
-		KUBE_NODE_STATUS_ALLOCATABLE,
-	}
-
-	private final String[] CAPACITY_LABELS = new String[] { "node", "resource", "unit" };
-
-	public NodeMetrics(IoK8sApiCoreV1Node node) {
+	static {
 		metrics.put(Key.KUBE_NODE_STATUS_CAPACITY, Gauge.build()
 				.name("kube_node_status_capacity")
 				.help("The capacity for different resources of a node.")
@@ -29,6 +23,11 @@ public class NodeMetrics {
 				.help("The allocatable for different resources of a node that are available for scheduling.")
 				.labelNames(CAPACITY_LABELS)
 				.register());
+	}
+
+	private static enum Key {
+		KUBE_NODE_STATUS_CAPACITY,
+		KUBE_NODE_STATUS_ALLOCATABLE,
 	}
 
 	public void update(IoK8sApiCoreV1Node node) {
