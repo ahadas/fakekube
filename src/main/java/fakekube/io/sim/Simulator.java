@@ -1,5 +1,6 @@
 package fakekube.io.sim;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -20,6 +21,8 @@ public class Simulator extends HttpServlet {
 	private Nodes nodes;
 	@Inject
 	private MetricStore metricStore;
+	@Inject
+	private RemoteWrite remoteWrite;
 
 	private Thread metrics;
 
@@ -31,6 +34,11 @@ public class Simulator extends HttpServlet {
 		metrics = new Thread(() -> {
 			while (true) {
 				metricStore.generate(nodes.list());
+				try {
+					remoteWrite.send();
+				} catch (IOException | InterruptedException e) {
+					LOGGER.warning("failed to send metrics via remote-write: " + e.getMessage());
+				}
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {}
