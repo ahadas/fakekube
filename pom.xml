@@ -235,6 +235,21 @@
 			<artifactId>simpleclient_common</artifactId>
 			<version>0.8.1</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.xerial.snappy</groupId>
+		    <artifactId>snappy-java</artifactId>
+		    <version>1.1.7.3</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.protobuf</groupId>
+		    <artifactId>protobuf-java</artifactId>
+		    <version>3.11.3</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.cellery.observability</groupId>
+		    <artifactId>gogoproto-java</artifactId>
+		    <version>0.2.2</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
