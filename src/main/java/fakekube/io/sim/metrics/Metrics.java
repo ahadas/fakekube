@@ -11,7 +11,6 @@ import fakekube.io.model.IoK8sApiCoreV1Namespace;
 import fakekube.io.model.IoK8sApiCoreV1NamespaceStatus;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1ObjectMeta;
 import fakekube.io.sim.Clock;
-import fakekube.io.sim.RemoteWrite;
 import fakekube.io.sim.model.Namespaces;
 import fakekube.io.sim.model.Nodes;
 
@@ -39,11 +38,8 @@ public class Metrics {
 		metrics = new Thread(() -> {
 			while (true) {
 				metricStore.generate(nodes.list());
-				try {
-					remoteWrite.send();
-				} catch (IOException | InterruptedException e) {
-					LOGGER.warning("failed to send metrics via remote-write: " + e.getMessage());
-				}
+				remoteWrite.send();
+
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {}

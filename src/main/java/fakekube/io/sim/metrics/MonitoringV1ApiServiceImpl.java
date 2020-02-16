@@ -2,10 +2,10 @@ package fakekube.io.sim.metrics;
 
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import fakekube.io.model.IoK8sApiAppsV1Deployment;
 import fakekube.io.model.IoK8sApimachineryPkgApisMetaV1APIResourceList;
 import fakekube.io.utils.ResourceReader;
 
@@ -18,6 +18,9 @@ import fakekube.io.utils.ResourceReader;
 public class MonitoringV1ApiServiceImpl implements MonitoringV1Api {
 	private static final Logger LOGGER = Logger.getLogger(MonitoringV1ApiServiceImpl.class.getName());
 
+	@Inject
+	private RemoteWrite remoteWrite;
+
 	public Response getAppsV1APIResources() {
     	IoK8sApimachineryPkgApisMetaV1APIResourceList obj = new ResourceReader().read("monitoring_resources.json", IoK8sApimachineryPkgApisMetaV1APIResourceList.class);
         return (obj != null ? Response.ok(obj) : Response.status(Status.BAD_REQUEST)).build();
@@ -26,6 +29,7 @@ public class MonitoringV1ApiServiceImpl implements MonitoringV1Api {
 	@Override
 	public Response createMonitoringV1NamespacedPrometheus(String namespace, IoK8sApiMonitoringV1Prometheus body) {
 		 LOGGER.info("received prometheus");
+		 remoteWrite.setPrometheus(body);
 		 return Response.ok(body).build();	 
 	}    
 }

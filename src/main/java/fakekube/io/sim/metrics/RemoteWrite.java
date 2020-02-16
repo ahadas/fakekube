@@ -1,4 +1,4 @@
-package fakekube.io.sim;
+package fakekube.io.sim.metrics;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,28 +31,49 @@ public class RemoteWrite {
 	private static final Logger LOGGER = Logger.getLogger(RemoteWrite.class.getName());
 
 	private CollectorRegistry registry;
+	private final HttpClient httpClient;
+	private IoK8sApiMonitoringV1Prometheus prometheus;
 
 	public RemoteWrite() {
-		this.registry = CollectorRegistry.defaultRegistry;
+		registry = CollectorRegistry.defaultRegistry;
+		httpClient = HttpClient.newBuilder()
+	            .version(HttpClient.Version.HTTP_2)
+	            .build();
 	}
 
-	private final HttpClient httpClient = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_2)
-            .build();
+	public void send() {
+		String url = getUrl();
+		if (url != null) {
+			try {
+				sendImpl(url);
+			} catch (IOException | InterruptedException e) {
+				LOGGER.warning("failed to send metrics via remote-write: " + e.getMessage());
+			}
+		}
+	}
 
-	public void send() throws IOException, InterruptedException {
+	private String getUrl() {
+		if (prometheus == null)
+			return null;
+		IoK8sApiMonitoringV1RemoteWrite remoteWrite = prometheus.getSpec().getRemoteWrite();
+		if (remoteWrite == null)
+			return null;
+		return remoteWrite.getUrl();
+	}
+
+	private void sendImpl(String url) throws IOException, InterruptedException {
 		HttpRequest request = HttpRequest.newBuilder()
-                .POST(buildData())
-                .uri(URI.create("http://10.46.9.101:19291/api/v1/receive"))
-                //.uri(URI.create("http://10.46.9.101:19291/write"))
-                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
-                .header("Content-Type", "application/x-protobuf")//"text/plain; version=0.0.4; charset=utf-8")
-                .header("Content-Encoding", "snappy")//"text/plain; version=0.0.4; charset=utf-8")
-                .build();
+				.POST(buildData())
+				.uri(URI.create(String.format("http://%s/api/v1/receive", url)))
+				//.uri(URI.create("http://10.46.9.101:19291/write"))
+				.setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+				.header("Content-Type", "application/x-protobuf")//"text/plain; version=0.0.4; charset=utf-8")
+				.header("Content-Encoding", "snappy")//"text/plain; version=0.0.4; charset=utf-8")
+				.build();
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        LOGGER.info("remote-write post status: " + response.statusCode());
-        LOGGER.info("remote-write post body: " + response.body());
+		HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+		LOGGER.info("remote-write post status: " + response.statusCode());
+		LOGGER.info("remote-write post body: " + response.body());
 	}
 
 	private HttpRequest.BodyPublisher buildData() throws IOException {
@@ -86,5 +107,13 @@ public class RemoteWrite {
 		WriteRequest request = writeRequestBuilder.build();
 		byte[] compressed = Snappy.compress(request.toByteArray());
 		return HttpRequest.BodyPublishers.ofByteArray(compressed);
+	}
+
+	public IoK8sApiMonitoringV1Prometheus getPrometheus() {
+		return prometheus;
+	}
+
+	public void setPrometheus(IoK8sApiMonitoringV1Prometheus prometheus) {
+		this.prometheus = prometheus;
 	}
 }
