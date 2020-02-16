@@ -1,0 +1,23 @@
+{
+  "kind": "APIResourceList",
+  "apiVersion": "v1",
+  "groupVersion": "monitoring.coreos.com/v1",
+  "resources": [
+    {
+      "name": "prometheus",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "Prometheus",
+      "verbs": [
+        "create",
+        "delete",
+        "deletecollection",
+        "get",
+        "list",
+        "patch",
+        "update",
+        "watch"
+      ]
+    }
+ ]
+}

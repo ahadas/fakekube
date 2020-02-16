@@ -266,6 +266,19 @@
         "groupVersion": "coordination.k8s.io/v1beta1",
         "version": "v1beta1"
       }
+    },
+    {
+      "name": "monitoring.coreos.com",
+      "versions": [
+        {
+          "groupVersion": "monitoring.coreos.com/v1",
+          "version": "v1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "monitoring.coreos.com/v1",
+        "version": "v1"
+      }
     }
   ]
 }
