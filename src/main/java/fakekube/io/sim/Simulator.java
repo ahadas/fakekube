@@ -33,11 +33,12 @@ public class Simulator extends HttpServlet {
 	}
 
 	private void addDefaultNamespace() {
-		IoK8sApiCoreV1Namespace defaultNamespace = new IoK8sApiCoreV1Namespace()
+		LOGGER.info("adding 'default' namespace");
+		IoK8sApiCoreV1Namespace monitoringNamespace = new IoK8sApiCoreV1Namespace()
 				.apiVersion("v1")
 				.kind("Namespace")
 				.metadata(new IoK8sApimachineryPkgApisMetaV1ObjectMeta().name("default").creationTimestamp(clock.creationTimestamp()))
 				.status(new IoK8sApiCoreV1NamespaceStatus().phase("Active"));
-		namespaces.add(defaultNamespace);
+		namespaces.add(monitoringNamespace);
 	}
 }
