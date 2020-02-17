@@ -1,7 +1,7 @@
 # FakeKube
 
 ## Deploy and Run
-mvn clean package tomee:run
+    $ mvn clean package tomee:run
 
 ## Docker
 
@@ -9,7 +9,7 @@ mvn clean package tomee:run
     $ docker image build -t fakekube .
 
 ### Run
-    $ docker container run -it --publish 8080:8080 fakekube
+    $ docker run -it --publish 8080:8080 fakekube
 
 ## Cluster API
     $ http://localhost:8080/api/v1
