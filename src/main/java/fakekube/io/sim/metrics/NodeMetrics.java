@@ -1,15 +1,26 @@
 package fakekube.io.sim.metrics;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 
 import fakekube.io.model.IoK8sApiCoreV1Node;
+import fakekube.io.model.IoK8sApiCoreV1NodeSystemInfo;
 import io.kubernetes.client.custom.Quantity;
 import io.prometheus.client.Gauge;
 
+@Named
+@ApplicationScoped
 public class NodeMetrics {
 	private static Map<Key, Gauge> metrics = new HashMap<>();
 	private static final String[] CAPACITY_LABELS = new String[] { "node", "resource", "unit" };
+	private static final String[] NODE_LABELS = new String[] { "node", "label_beta_kubernetes_io_arch", "label_beta_kubernetes_io_os", "label_kubernetes_io_arch", "label_kubernetes_io_hostname", "label_kubernetes_io_os", "label_node_role_kubernetes_io_master" };
 
 	static {
 		metrics.put(Key.KUBE_NODE_STATUS_CAPACITY, Gauge.build()
@@ -23,11 +34,48 @@ public class NodeMetrics {
 				.help("The allocatable for different resources of a node that are available for scheduling.")
 				.labelNames(CAPACITY_LABELS)
 				.register());
+
+		metrics.put(Key.KUBE_NODE_CREATED, Gauge.build()
+				.name("kube_node_created")
+				.help("Unix creation timestamp")
+				.labelNames("node")
+				.register());
+
+		metrics.put(Key.KUBE_NODE_LABELS, Gauge.build()
+				.name("kube_node_labels")
+				.help("Kubernetes labels converted to Prometheus labels.")
+				.labelNames(NODE_LABELS)
+				.register());
+
+		metrics.put(Key.KUBE_NODE_INFO, Gauge.build()
+				.name("kube_node_info")
+				.help("Information about a cluster node.")
+				.labelNames(new String[] { "node", "kernel_version", "os_image", "container_runtime_version", "kubelet_version", "kubeproxy_version", "provider_id", "pod_cidr" })
+				.register());
 	}
 
 	private static enum Key {
 		KUBE_NODE_STATUS_CAPACITY,
 		KUBE_NODE_STATUS_ALLOCATABLE,
+		KUBE_NODE_CREATED,
+		KUBE_NODE_LABELS,
+		KUBE_NODE_INFO
+	}
+
+	public void add(IoK8sApiCoreV1Node node) {
+		String name = node.getMetadata().getName();
+		Gauge created = metrics.get(Key.KUBE_NODE_CREATED);
+		created.labels(name).set(new Date().getTime());
+
+		Map<String, String> nodeLabels = node.getMetadata().getLabels();
+		Gauge labels = metrics.get(Key.KUBE_NODE_LABELS);
+		List<String> values = Arrays.stream(NODE_LABELS).skip(1).map(l -> nodeLabels.containsKey(l) ? nodeLabels.get(l) : "").collect(Collectors.toList());
+		values.add(0, name);
+		labels.labels(values.toArray(new String[0])).set(1);
+
+		IoK8sApiCoreV1NodeSystemInfo nodeInfo = node.getStatus().getNodeInfo();
+		Gauge info = metrics.get(Key.KUBE_NODE_INFO);
+		info.labels(name, nodeInfo.getKernelVersion(), nodeInfo.getOsImage(), nodeInfo.getContainerRuntimeVersion(), nodeInfo.getKubeletVersion(), nodeInfo.getKubeProxyVersion(), "", "").set(1);
 	}
 
 	public void update(IoK8sApiCoreV1Node node) {
