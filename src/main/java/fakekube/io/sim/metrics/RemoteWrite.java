@@ -6,11 +6,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -42,38 +44,35 @@ public class RemoteWrite {
 	}
 
 	public void send() {
-		String url = getUrl();
-		if (url != null) {
-			try {
-				sendImpl(url);
-			} catch (IOException | InterruptedException e) {
-				LOGGER.warning("failed to send metrics via remote-write: " + e.getMessage());
-			}
-		}
+		getURLs().forEach(this::send);
 	}
 
-	private String getUrl() {
+	private List<String> getURLs() {
 		if (prometheus == null)
-			return null;
-		IoK8sApiMonitoringV1RemoteWrite remoteWrite = prometheus.getSpec().getRemoteWrite();
+			return Collections.emptyList();;
+		IoK8sApiMonitoringV1RemoteWrite[] remoteWrite = prometheus.getSpec().getRemoteWrite();
 		if (remoteWrite == null)
-			return null;
-		return remoteWrite.getUrl();
+			return Collections.emptyList();
+		return Arrays.stream(remoteWrite).map(IoK8sApiMonitoringV1RemoteWrite::getUrl).collect(Collectors.toList());
 	}
 
-	private void sendImpl(String url) throws IOException, InterruptedException {
-		HttpRequest request = HttpRequest.newBuilder()
-				.POST(buildData())
-				.uri(URI.create(String.format("http://%s/api/v1/receive", url)))
-				//.uri(URI.create("http://10.46.9.101:19291/write"))
-				.setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
-				.header("Content-Type", "application/x-protobuf")//"text/plain; version=0.0.4; charset=utf-8")
-				.header("Content-Encoding", "snappy")//"text/plain; version=0.0.4; charset=utf-8")
-				.build();
+	private void send(String url) {
+		try {
+			HttpRequest request = HttpRequest.newBuilder()
+					.POST(buildData())
+					.uri(URI.create(String.format("http://%s/api/v1/receive", url)))
+					//.uri(URI.create("http://10.46.9.101:19291/write"))
+					.setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+					.header("Content-Type", "application/x-protobuf")//"text/plain; version=0.0.4; charset=utf-8")
+					.header("Content-Encoding", "snappy")//"text/plain; version=0.0.4; charset=utf-8")
+					.build();
 
-		HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-		LOGGER.info("remote-write post status: " + response.statusCode());
-		LOGGER.info("remote-write post body: " + response.body());
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+			LOGGER.info("remote-write post status: " + response.statusCode());
+			LOGGER.info("remote-write post body: " + response.body());
+		} catch (IOException | InterruptedException e) {
+			LOGGER.warning("failed to send metrics via remote-write: " + e.getMessage());
+		}
 	}
 
 	private HttpRequest.BodyPublisher buildData() throws IOException {

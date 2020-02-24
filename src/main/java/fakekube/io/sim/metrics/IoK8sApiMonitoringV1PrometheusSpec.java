@@ -15,22 +15,22 @@ public class IoK8sApiMonitoringV1PrometheusSpec  {
  /**
    * Minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready)
   **/
-  private IoK8sApiMonitoringV1RemoteWrite remoteWrite = null;
+  private IoK8sApiMonitoringV1RemoteWrite[] remoteWrite = null;
 
  /**
    * Minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready)
    * @return minReadySeconds
   **/
   @JsonProperty("remoteWrite")
-  public IoK8sApiMonitoringV1RemoteWrite getRemoteWrite() {
+  public IoK8sApiMonitoringV1RemoteWrite[] getRemoteWrite() {
     return remoteWrite;
   }
 
-  public void setRemoteWrite(IoK8sApiMonitoringV1RemoteWrite remoteWrite) {
+  public void setRemoteWrite(IoK8sApiMonitoringV1RemoteWrite[] remoteWrite) {
     this.remoteWrite = remoteWrite;
   }
 
-  public IoK8sApiMonitoringV1PrometheusSpec remoteWrite(IoK8sApiMonitoringV1RemoteWrite remoteWrite) {
+  public IoK8sApiMonitoringV1PrometheusSpec remoteWrite(IoK8sApiMonitoringV1RemoteWrite[] remoteWrite) {
     this.remoteWrite = remoteWrite;
     return this;
   }
