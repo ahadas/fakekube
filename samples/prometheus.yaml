@@ -13,4 +13,4 @@ spec:
       memory: 400Mi
   enableAdminAPI: false
   remoteWrite:
-  - url: 10.46.9.101:19291
+  - url: http://10.46.9.101:19291/api/v1/metrics/write
