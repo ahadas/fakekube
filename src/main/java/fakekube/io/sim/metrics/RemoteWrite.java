@@ -60,7 +60,7 @@ public class RemoteWrite {
 		try {
 			HttpRequest request = HttpRequest.newBuilder()
 					.POST(buildData())
-					.uri(URI.create(String.format("http://%s/api/v1/receive", url)))
+					.uri(URI.create(url))
 					//.uri(URI.create("http://10.46.9.101:19291/write"))
 					.setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
 					.header("Content-Type", "application/x-protobuf")//"text/plain; version=0.0.4; charset=utf-8")
