@@ -1,6 +1,8 @@
 # FakeKube
 
 ## Deploy and Run
+Java JDK 11 is required.
+
     $ mvn clean package tomee:run
 
 ## Docker
@@ -13,3 +15,7 @@
 
 ## Cluster API
     $ http://localhost:8080/api/v1
+
+Or use provided kubeconfig file:
+
+    $ kubectl --kubeconfig=./.kube/config get nodes
